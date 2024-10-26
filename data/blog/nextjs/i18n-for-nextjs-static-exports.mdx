@@ -1,8 +1,105 @@
 ---
 title: 'Best Practices for Implementing Internationalization (i18n) in Next.js Static Exports'
 date: 2024-10-26
+draft: false
 tags:
   - next.js
-draft: true
 ---
 
+# Context
+
+1. [next-international](#next-international)
+
+---
+
+Recently, I decided to rewrite one of my side projects using **Next.js**. I've been learning **Next.js** and wanted to practice by cleaning up my old code.
+
+However, I encountered a challenge: while there are many i18n libraries available, few support **static exports**. I found a few libraries that claimed to support this feature, but their documentation was sparse, with only brief instructions. This led to a lengthy research process.
+
+Here are the solutions I found:
+
+# next-international
+
+*Note: The following code examples are in Typescript and are for Next.js using the App Router.*
+
+## Installation
+
+First, install `next-international`.
+
+For npm:
+```
+npm install next-international
+```
+
+For yarn:
+```
+yarn add next-international
+```
+
+## Create `server.ts` and `client.ts`
+
+Create the following file structure:
+```
+project/
+└── locales/
+    ├── server.ts
+    └── client.ts
+```
+
+`server.ts` and `client.ts`:
+
+```Typescript
+// server.ts
+
+import { createI18nServer } from 'next-international/server'
+
+export const { getI18n, getScopedI18n, getStaticParams } = createI18nServer({
+  en: () => import('./en'),
+  zh: () => import('./zh'),
+});
+```
+
+```Typescript
+// client.ts
+
+"use client"
+import { createI18nClient } from 'next-international/client'
+
+export const { useI18n, useScopedI18n, I18nProviderClient } = createI18nClient({
+  en: () => import('./en'),
+  zh: () => import('./zh'),
+})
+```
+
+## Prepare the language files
+
+Create file `{language name}.ts` under `locales` folder. Like:
+```
+project/
+└── locales/
+    ├── en.ts
+    └── zh.ts
+```
+Examples for language files:
+```Typescript
+// example en.ts
+
+export default {
+  "header": {
+    "home": "Home",
+    "blog": "blog"
+  },
+  "siteName": "Adyingdeath Blog"
+} as const
+```
+
+So, your file structure is something like this now:
+
+```
+project/
+└── locales/
+    ├── server.ts
+    ├── client.ts
+    ├── en.ts
+    └── zh.ts
+```
