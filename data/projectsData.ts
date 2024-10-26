@@ -8,19 +8,17 @@ interface Project {
 const projectsData: Project[] = [
   {
     title: 'Mightool: useful tools here',
-    description: `What if you could look up any information in the world? Webpages, images, videos
-    and more. Google has many features to help you find exactly what you're looking
-    for.`,
-    imgSrc: '/static/images/google.png',
-    href: 'https://www.mightool.com/',
+    description: `The website combines many practical small tools, including random password generators, text editors, text statistics, and other online tools that can be used for free without registration. The toolset has powerful and practical functions, covering text processing, conversion, security and other needs. It is a high-quality collection of tool applications on the web.`,
+    imgSrc: '/static/images/projects/mightool.webp',
+    href: 'https://www.mightool.com/en/',
   },
   {
-    title: 'The Time Machine',
+    title: 'Promptcove: helpful prompt manager',
     description: `Imagine being able to travel back in time or to the future. Simple turn the knob
     to the desired date and press "Go". No more worrying about lost keys or
     forgotten headphones with this simple yet affordable solution.`,
     imgSrc: '/static/images/time-machine.jpg',
-    href: '/blog/the-time-machine',
+    href: 'https://www.promptcove.com/',
   },
 ]
 

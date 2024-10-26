@@ -13,9 +13,9 @@ import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 
 const space_grotesk = Lato({
-  weight: "400",
+  weight: '400',
   subsets: ['latin'],
-  variable: '--font-space-grotesk'
+  variable: '--font-space-grotesk',
 })
 
 export const metadata: Metadata = {
