@@ -8,7 +8,14 @@ tags:
 
 # Context
 
-1. [next-international](#next-international)
+- [next-international](#next-international)
+  - [Installation](#installation)
+  - [Create server.ts and client.ts](#create-serverts-and-clientts)
+  - [Prepare the Language Files](#prepare-the-language-files)
+  - [Modify Your Existing Files](#modify-your-existing-files)
+  - [Add `setStaticParamsLocale` and `getStaticParams`](#add-setstaticparamslocale-and-getstaticparams)
+  - [Translate Now](#translate-now)
+  - [Static Exports](#static-exports)
 
 ---
 
@@ -54,8 +61,8 @@ project/
 import { createI18nServer } from 'next-international/server'
 
 export const { getI18n, getScopedI18n, getStaticParams } = createI18nServer({
-  en: () => import('./en'),
-  zh: () => import('./zh'),
+    en: () => import('./en'),
+    zh: () => import('./zh'),
 });
 ```
 
@@ -66,8 +73,8 @@ export const { getI18n, getScopedI18n, getStaticParams } = createI18nServer({
 import { createI18nClient } from 'next-international/client'
 
 export const { useI18n, useScopedI18n, I18nProviderClient } = createI18nClient({
-  en: () => import('./en'),
-  zh: () => import('./zh'),
+    en: () => import('./en'),
+    zh: () => import('./zh'),
 })
 ```
 
@@ -80,20 +87,19 @@ project/
     ├── en.ts
     └── zh.ts
 ```
-Examples for language files:
 ```Typescript
-// example en.ts
+// Example language file: en.ts
 
 export default {
-  "header": {
-    "home": "Home",
-    "blog": "blog"
-  },
-  "siteName": "Adyingdeath Blog"
+    "header": {
+        "home": "Home",
+        "blog": "blog"
+    },
+    "siteName": "Adyingdeath Blog"
 } as const
 ```
 
-So, your file structure is something like this now:
+Your current file structure looks like this:
 
 ```
 project/
@@ -102,4 +108,162 @@ project/
     ├── client.ts
     ├── en.ts
     └── zh.ts
+```
+
+## Modify Your Existing Files
+
+Move all your routes into an `app/[locale]/` folder:
+```
+// Before moving
+project/
+└── app/
+    ├── layout.tsx
+    └── page.tsx
+
+// After moving
+project/
+└── app/
+    └── [locale]/
+        ├── layout.tsx
+        └── page.tsx
+```
+
+**Note:** The `[locale]` placeholder is a literal string, not a variable reference. You should name the folder exactly as `[locale]`.
+
+If your app contains client components, wrap the lowest level components with `I18nProviderClient` within a layout:
+```Typescript
+// app/[locale]/layout.tsx
+import { I18nProviderClient } from '../../locales/client'
+
+/* other codes */
+
+export default async function RootLayout({
+    params,
+    children,
+}: Readonly<{
+    params: Promise<{ locale: string }>;
+    children: React.ReactNode;
+}>) {
+    const { locale } = await params;
+    setStaticParamsLocale(locale);
+
+    return (
+        <I18nProviderClient locale={locale}>
+            {children}
+        </I18nProviderClient>
+    );
+}
+```
+
+**Note:** Add a `params` property to the layout to capture the `[locale]` value from the URL. For example, visiting `/en/` sets `[locale]` to `en`, allowing the layout to access the language parameter via `params`.
+```Typescript
+export default async function RootLayout({
+    params,
+    children,
+}: Readonly<{
+    params: Promise<{ locale: string }>;
+    children: React.ReactNode;
+}>)
+```
+
+## Add `setStaticParamsLocale` and `getStaticParams`
+
+Add the following:
+
+- Within the root layout, call the `setStaticParamsLocale` function, passing it the `locale` page parameter.
+- Export a `generateStaticParams` function from the root layout.
+
+**Note:** You can also add `setStaticParamsLocale` and `getStaticParams` to individual pages. If you prefer not to add them to the root layout, you can include them in the specific pages where needed. However, keep in mind that these functions can only be used in server components.
+
+```Typescript
+// app/[locale]/layout.tsx
+import { setStaticParamsLocale } from 'next-international/server'
+import { getStaticParams } from '../../locales/server'
+
+export default async function RootLayout({ params: { locale } }: { params: Promise<{ locale: string }> }) {
+	const { locale } = await params;
+    setStaticParamsLocale(locale);
+
+	return (
+        /* ... */
+    )
+}
+
+export function generateStaticParams() {
+	return getStaticParams()
+}
+```
+
+Now, your `layout.tsx` should be something like this:
+```Typescript
+// app/[locale]/layout.tsx
+/* other imports */
+import { I18nProviderClient } from '../../locales/client'
+import { setStaticParamsLocale } from 'next-international/server'
+import { getStaticParams } from '../../locales/server'
+
+/* other code */
+
+export default async function RootLayout({ params: { locale } }: { params: Promise<{ locale: string }> }) {
+	const { locale } = await params;
+    setStaticParamsLocale(locale);
+
+	return (
+        <I18nProviderClient locale={locale}>
+            {children}
+        </I18nProviderClient>
+    );
+}
+
+export function generateStaticParams() {
+	return getStaticParams()
+}
+```
+
+## Translate Now
+
+Inside server components:
+```Typescript
+// Example page.tsx
+import { getI18n } from '@/locales/server'
+
+export default async function Page() {
+    const t = await getI18n();
+
+    return (
+        <div>{t("siteName")}</div>
+    )
+}
+```
+
+Inside client components:
+```Typescript
+// Example Header.tsx
+"use client";
+
+import { useI18n } from '@/locales/client';
+
+export default function Header() {
+    const t = useI18n();
+
+    return (
+        <div className='w-full flex items-center p-2 gap-4'>
+            {t("header.blog")}
+        </div>
+    )
+}
+```
+
+## Static Exports
+Inside your `next.config.ts`, set `output` to `export`:
+```Typescript
+const nextConfig: NextConfig = {
+  /* config options here */
+  "output": "export",
+};
+```
+
+Then, export it to `out` folder in your project root:
+```
+npm run build
 ```
