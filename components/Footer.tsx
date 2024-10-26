@@ -27,7 +27,10 @@ export default function Footer() {
         </div>
         <div className="mb-8 text-sm text-gray-500 dark:text-gray-400">
           Build with&nbsp;
-          <Link className='font-semibold' href="https://github.com/timlrx/tailwind-nextjs-starter-blog">
+          <Link
+            className="font-semibold"
+            href="https://github.com/timlrx/tailwind-nextjs-starter-blog"
+          >
             tailwind-nextjs-starter-blog
           </Link>
         </div>
