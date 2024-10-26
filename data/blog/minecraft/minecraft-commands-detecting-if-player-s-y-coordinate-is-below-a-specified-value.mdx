@@ -1,0 +1,74 @@
+---
+title: "Minecraft Commands: Detecting if Player's Y-Coordinate is Below a Specified Value"
+date: 2024-10-26
+draft: false
+summary: ''
+tags: 
+    - minecraft
+---
+
+---
+
+**This content is only valid in Java Edition**
+
+In Minecraft, we sometimes have a requirement to detect whether a player's Y-coordinate is below (or above) a specified value. How can we achieve this?
+
+## Table of Contents
+* [Solution 1: "Infinite" Cuboid](#solution-1-infinite-cuboid)
+* [Solution 2: Player-Following Cuboid](#solution-2-player-following-cuboid)
+* Just want the commands, not the article? [Quick Jump to Commands](#fastjump)
+
+At first, we might think of using the target selector to accomplish this task. I have excerpted a description of the coordinate parameters in the target selector from the wiki.
+
+Coordinates (x, y, z):
+>`[x=<value>,y=<value>,z=<value>]` — Defines a position in the world.
+>
+>This position will become the execution position of the target selector (without modifying the command execution position), meaning the target selected by `@p` may change.
+>
+>If any of the parameters are undefined, the coordinates of the command execution position are used by default.
+>
+>Can be used with the `distance` parameter or the `dx`, `dy`, and `dz` parameters to translate the selection range.
+>
+>The coordinates can be integers or decimal numbers like `12.34` (specifically double-precision floating-point numbers) and are not center-corrected, meaning `x=0` will no longer automatically correct to `x=0.5`. In Bedrock Edition, tildes can be used for this parameter.
+
+Volume Dimensions `(dx, dy, dz)`:
+>[dx=\<value\>,dy=\<value\>,dz=\<value\>] — In Java Edition, selects all entities whose bounding boxes intersect with the defined cuboid region within the same dimension. If the position parameters are undefined, the selected cuboid region is calculated directly relative to the command execution position. These parameters can be negative or decimal numbers.
+
+It's easy to think that in the target selector, we can use `x, y, z` and `dx, dy, dz` to detect whether a player is within a given range. For example, the following command detects whether the player is within the cuboid region defined by the points (6, 7, 8) and (123, 124, 125):
+```minecraft
+# xxx in the command represents a player's name or a player selector, the same below
+# The part after "run" is not provided here, readers can write it according to their own needs
+# In this case, dx=123-6=117, dy=124-7=117, dz=125-8=117
+execute as xxx at @s if entity @s[x=6,y=7,z=8,dx=117,dy=117,dz=117]
+```
+Returning to the original question, how do we detect whether the player's Y-coordinate is below (or above) a specified value?
+
+### Solution 1: "Infinite" Cuboid
+
+One idea is that since the target selector can `detect whether the player's bounding box intersects with the defined cuboid region`, we can take an "infinite" cuboid, i.e., large enough in the `x` and `z` directions to extend far enough, and then only work on the `y` value, which can be the critical value you want to detect.
+
+This is mainly because the world size has an upper limit.According to the wiki, *the world border is essentially a huge bounding box. With default settings, the center of the world border is at coordinates x=0, z=0, and the length or width in each direction is about thirty million (29,999,984) blocks*, so our `x` and `z` both take half of this maximum width and take a negative value, and then `dx` and `dz` take this maximum value.
+
+For example, if you want to monitor whether the player's `y` coordinate is below `64`, you can write it like this:
+
+```minecraft
+execute as xxx at @s if entity @s[x=-14999992,y=63,z=-14999992,dx=29999984,dy=-340,dz=29999984]
+```
+
+Note that why is `y` written as `63` here? This is due to a feature of Minecraft (refer to [MC-123441](https://bugs.mojang.com/browse/MC-123441)), which means that if you want to detect whether the player's `y` coordinate is below `M`, you just need to replace `y=63` in the above command with `y=M-1`. Also, I wrote `dy=-340` above, and if your y value is very large, you need to modify this dy to ensure that the value of y-dy is a height where players cannot exist (generally less than -128, below which is the void), otherwise, the player will not be detected when below this value.
+
+### Solution 2: Player-Following Cuboid
+
+In the above solution, we took an "infinite" cuboid region for detection. In fact, we can completely take a region at the player's feet for detection. Imagine that I take a cuboid region defined by `x=<player's x value>, y=<y value to be detected>, z=<player's z value>` and `dx=1, dy=-1, dz=1`. This region is always on the same vertical line as the player.
+
+<div id="fastjump"></div>
+
+Therefore, it is only necessary to detect whether the player's bounding box intersects with this region.
+
+For example, to detect whether it is below `64`, use the following command, still paying attention to the issue mentioned above, i.e., `y` should be reduced by 1.
+
+```minecraft
+execute as xxx at @s if entity @s[y=63,dx=1,dy=-1,dz=1]
+```
+
+Regarding other detections, such as detecting whether the `y` value is greater than a certain value, or detecting `x` or `z`, the idea is the same, so I won't elaborate further.
