@@ -20,6 +20,12 @@ const projectsData: Project[] = [
     imgSrc: '/static/images/time-machine.jpg',
     href: 'https://www.promptcove.com/',
   },
+  {
+    title: 'INJ: superpower for Minecraft datapacks developers',
+    description: `INJ is a progressive programming language designed for Minecraft datapack development. It enhances mcfunction files with features like conditionals and loops while preserving the original command syntax. This allows developers to gradually adopt INJ's powerful features without rewriting existing code, making datapack development more efficient and maintainable.`,
+    imgSrc: '/static/images/projects/inj.webp',
+    href: 'https://inj.adyingdeath.com/',
+  },
 ]
 
 export default projectsData
