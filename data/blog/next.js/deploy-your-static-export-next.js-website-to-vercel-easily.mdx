@@ -1,0 +1,102 @@
+---
+title: 'Deploy Your Static Export Next.js Website to Vercel Easily'
+date: 2025-1-13
+draft: false
+summary: Learn how to easily deploy your static exported Next.js site using Vercel, with only a few steps.
+tags: 
+    - next.js
+    - vercel
+---
+
+Recently, I wanted to deploy one of my static exported Next.js sites to Vercel. However, I found that there were only two options on the Vercel dashboard:
+
+1. Deploy from a Git repository
+2. Deploy from a template
+
+However, I wanted to deploy some static files that I had generated.
+
+After some research and testing, I found that I could use the `vercel` CLI to deploy my site, and actually this is super convenient.
+
+## Setup
+
+First, you need to install the `vercel` CLI.
+
+```
+npm i -g vercel
+```
+
+Here, we're installing the `vercel` CLI globally, which will enable us to use vercel in any of our later projects.
+
+## Build your site
+
+Next, you need to build your site.
+
+Make sure you have add `output: export` to your `next.config.js`(or `next.config.ts`) file.
+
+```js
+// next.config.(js|ts)
+module.exports = {
+  output: 'export', // enable static export
+  trailingSlash: true,
+};
+```
+
+Tips: the `trailingSlash` option is optional, because Vercel can handle the two different cases. Their difference is as follows:
+
+```
+trailingSlash: true
+"https://example.com/page" -> "https://example.com/page/index.html"
+
+trailingSlash: false
+"https://example.com/page" -> "https://example.com/page.html"
+```
+
+Then, build your site:
+
+```
+npm run build
+```
+
+After the build is complete, you will find a `out` folder in your project root, which contains all the static files that you need to deploy.
+
+## Deploy to Vercel
+
+Now, you can deploy your site to Vercel.
+
+```
+npx vercel
+```
+
+There will be some prompts asking you for extra information:
+
+```
+? Set up and deploy “<your project path>”? yes
+? Which scope should contain your project? projects
+? Link to existing project? no
+? What’s your project’s name? <your project name>
+? In which directory is your code located? ./out
+```
+
+Most of the cases, you can just press Enter to use the default value, until you see `? In which directory is your code located?`. Here, you need to type in `out`, which is the directory that contains all the static files that you need to deploy. Then, you can press Enter to continue.
+
+After that, you will see the deployment progress, which will take a few minutes.
+
+Well done! You have successfully deployed your static exported Next.js site to Vercel. There will be URL of your site in the terminal. You can check the url in vercel dashboard.
+
+## Deploy again later
+
+It's very easy and convenient to deploy again using vercel CLI.
+
+First, build the project:
+
+```
+npm run build
+```
+
+Then, deploy it to vercel:
+
+```
+npx vercel --prod
+```
+
+Wait for the files to be uploaded and it will be done automatically. Then, visit the URL of your site to check the changes.

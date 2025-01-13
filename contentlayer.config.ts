@@ -161,10 +161,11 @@ export default makeSource({
       [
         rehypeAutolinkHeadings,
         {
-          behavior: 'prepend',
-          headingProperties: {
+          properties: {
             className: ['content-header'],
+            ariaLabel: 'anchor',
           },
+          behavior: 'append',
           content: icon,
         },
       ],
