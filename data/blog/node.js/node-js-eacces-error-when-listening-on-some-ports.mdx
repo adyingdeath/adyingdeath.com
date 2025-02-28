@@ -1,0 +1,72 @@
+---
+title: "Node.js EACCES error when listening on some ports"
+date: "2025-02-27"
+draft: false
+description: "Node.js EACCES error when listening on some ports"
+tags: 
+    - node.js
+    - next.js
+---
+
+Today, I was working on one of my projects(a Next.js site) and got the following error when I tried to start the program:
+
+```
+ ⨯ Failed to start server
+Error: listen EACCES: permission denied 0.0.0.0:3000
+    at <unknown> (Error: listen EACCES: permission denied 0.0.0.0:3000)
+    at new Promise (<anonymous>) {
+  code: 'EACCES',
+  errno: -4092,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 3000
+}
+```
+
+I was originally thinking that the port was already in use, so I checked if it was and then found that it wasn't.
+
+After some research, I figured out how to fix it.
+
+## Solution
+
+Note: The solution is from a [StackOverflow post](https://stackoverflow.com/a/9166332/22344092).
+
+---
+
+### Running locally (Mac OS, Linux)
+As a general rule, processes running without root privileges cannot bind to ports below 1024.
+
+So try a higher port, or run with elevated privileges via `sudo`.  You can downgrade privileges after you have bound to the low port using [`process.setgid`](http://nodejs.org/api/process.html#process_process_setgid_id) and [`process.setuid`](http://nodejs.org/api/process.html#process_process_setuid_id).
+
+### Running locally (Windows)
+
+It's possible another process is already listening on this port, or the ports have been added to an excluded range.
+
+To show excluded ranges
+```
+> netsh interface ipv4 show excludedportrange protocol=tcp
+```
+
+To remedy, either choose another port, or you can try to release the ranges by restarting the `winnat` service.
+
+Run `cmd` with admin rights.
+
+```
+
+> net stop winnat
+> net start winnat
+
+```
+
+### Running on PaaS (eg: heroku)
+
+When running your apps on most platform as a service offerings, you have to use the port as specified in the PORT environment variable.
+
+See http://devcenter.heroku.com/articles/node-js for an example
+
+```javascript
+const server = require('http').createServer();
+const port = process.env.PORT || 3000;
+
+server.listen(port, () => console.log(`Listening on ${port}`));
+```	
