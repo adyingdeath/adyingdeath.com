@@ -1,0 +1,550 @@
+---
+title: Liquid Glass
+date: 2025-06-13
+draft: false
+summary: A playful implementation of liquid glass animation (though much simpler than Apple's effect)
+---
+
+I created this liquid glass animation purely for fun, using vanilla JavaScript without any frameworks or WebGL. The code isn't optimized - feel free to experiment with it below.
+
+## File Structure
+
+The project consists of just three files (all in the same directory):
+
+```
+index.html
+Vector.js
+Glass.js
+```
+
+## Codes
+
+You can copy the code directly into local files to try it out. I've added some comments to help explain the logic, but please note the code remains somewhat messy since this was just a quick experiment. It might take some time to fully understand how it works.
+
+### index.html
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="./Glass.js" type="module"></script>
+</head>
+
+<body style="width: 100%;height: 100%;">
+    <div style="position: relative; width: 100%; height: 100%;">
+        <canvas id="canvas"></canvas>
+        <canvas id="glass" width="100px" height="100px" style="position: absolute; left: 0; top: 0; width: 100px; height: 100px;"></canvas>
+    </div>
+</body>
+
+</html>
+```
+
+### Vector.js
+
+```javascript
+// This two classes are written by LLM.
+
+export class Vector2 {
+    constructor(x = 0, y = 0) {
+        this.x = x;
+        this.y = y;
+    }
+
+    static create(x, y) {
+        return new Vector2(x, y);
+    }
+
+    static zero() {
+        return new Vector2(0, 0);
+    }
+
+    static one() {
+        return new Vector2(1, 1);
+    }
+
+    add(v) {
+        return new Vector2(this.x + v.x, this.y + v.y);
+    }
+
+    subtract(v) {
+        return new Vector2(this.x - v.x, this.y - v.y);
+    }
+
+    scale(scalar) {
+        return new Vector2(this.x * scalar, this.y * scalar);
+    }
+
+    dot(v) {
+        return this.x * v.x + this.y * v.y;
+    }
+
+    cross(v) {
+        return this.x * v.y - this.y * v.x;
+    }
+
+    magnitude() {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+
+    magnitudeSquared() {
+        return this.x * this.x + this.y * this.y;
+    }
+
+    normalize() {
+        const mag = this.magnitude();
+        if (mag === 0) throw new Error('Cannot normalize zero vector');
+        return new Vector2(this.x / mag, this.y / mag);
+    }
+
+    angleTo(v) {
+        const dot = this.dot(v);
+        const magProduct = this.magnitude() * v.magnitude();
+        if (magProduct === 0) throw new Error('Cannot compute angle with zero vector');
+        return Math.acos(Math.min(1, Math.max(-1, dot / magProduct)));
+    }
+
+    distanceTo(v) {
+        const dx = this.x - v.x;
+        const dy = this.y - v.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    distanceSquaredTo(v) {
+        const dx = this.x - v.x;
+        const dy = this.y - v.y;
+        return dx * dx + dy * dy;
+    }
+
+    rotate(angle) {
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+        return new Vector2(
+            this.x * cos - this.y * sin,
+            this.x * sin + this.y * cos
+        );
+    }
+
+    lerp(v, t) {
+        return new Vector2(
+            this.x + (v.x - this.x) * t,
+            this.y + (v.y - this.y) * t
+        );
+    }
+
+    equals(v, epsilon = 0) {
+        return Math.abs(this.x - v.x) <= epsilon && 
+               Math.abs(this.y - v.y) <= epsilon;
+    }
+
+    clone() {
+        return new Vector2(this.x, this.y);
+    }
+
+    toArray() {
+        return [this.x, this.y];
+    }
+
+    toString() {
+        return `Vector2(${this.x}, ${this.y})`;
+    }
+}
+
+export class Vector3 {
+    constructor(x = 0, y = 0, z = 0) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    static create(x, y, z) {
+        return new Vector3(x, y, z);
+    }
+
+    static zero() {
+        return new Vector3(0, 0, 0);
+    }
+
+    static one() {
+        return new Vector3(1, 1, 1);
+    }
+
+    add(v) {
+        return new Vector3(this.x + v.x, this.y + v.y, this.z + v.z);
+    }
+
+    subtract(v) {
+        return new Vector3(this.x - v.x, this.y - v.y, this.z - v.z);
+    }
+
+    scale(scalar) {
+        return new Vector3(this.x * scalar, this.y * scalar, this.z * scalar);
+    }
+
+    dot(v) {
+        return this.x * v.x + this.y * v.y + this.z * v.z;
+    }
+
+    cross(v) {
+        return new Vector3(
+            this.y * v.z - this.z * v.y,
+            this.z * v.x - this.x * v.z,
+            this.x * v.y - this.y * v.x
+        );
+    }
+
+    magnitude() {
+        return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+    }
+
+    magnitudeSquared() {
+        return this.x * this.x + this.y * this.y + this.z * this.z;
+    }
+
+    normalize() {
+        const mag = this.magnitude();
+        if (mag === 0) throw new Error('Cannot normalize zero vector');
+        return new Vector3(this.x / mag, this.y / mag, this.z / mag);
+    }
+
+    angleTo(v) {
+        const dot = this.dot(v);
+        const magProduct = this.magnitude() * v.magnitude();
+        if (magProduct === 0) throw new Error('Cannot compute angle with zero vector');
+        return Math.acos(Math.min(1, Math.max(-1, dot / magProduct)));
+    }
+
+    distanceTo(v) {
+        const dx = this.x - v.x;
+        const dy = this.y - v.y;
+        const dz = this.z - v.z;
+        return Math.sqrt(dx * dx + dy * dy + dz * dz);
+    }
+
+    distanceSquaredTo(v) {
+        const dx = this.x - v.x;
+        const dy = this.y - v.y;
+        const dz = this.z - v.z;
+        return dx * dx + dy * dy + dz * dz;
+    }
+
+    lerp(v, t) {
+        return new Vector3(
+            this.x + (v.x - this.x) * t,
+            this.y + (v.y - this.y) * t,
+            this.z + (v.z - this.z) * t
+        );
+    }
+
+    equals(v, epsilon = 0) {
+        return Math.abs(this.x - v.x) <= epsilon && 
+               Math.abs(this.y - v.y) <= epsilon && 
+               Math.abs(this.z - v.z) <= epsilon;
+    }
+
+    clone() {
+        return new Vector3(this.x, this.y, this.z);
+    }
+
+    toArray() {
+        return [this.x, this.y, this.z];
+    }
+
+    toString() {
+        return `Vector3(${this.x}, ${this.y}, ${this.z})`;
+    }
+}
+```
+
+### Glass.js
+
+```javascript
+import { Vector3 } from "./Vector.js";
+
+/**
+ * Calculate refraction direction
+ * @param {number} n1 - Refractive index of the incident medium
+ * @param {number} n2 - Refractive index of the refracting medium
+ * @param {Vector3} incidentDir - Direction of the incident ray (propagation direction)
+ * @param {Vector3} normal - Normal at the interface (pointing from the incident medium to the refracting medium)
+ * @returns {Vector3|null} - Direction of the refracted ray, returns null if total internal reflection occurs
+ */
+function calculateRefraction(n1, n2, incidentDir, normal) {
+    // Normalize all vectors
+    const I = incidentDir.clone().normalize();
+    const N = normal.clone().normalize();
+
+    // Ensure the normal points into the correct hemisphere relative to the incident direction
+    const cosi = I.dot(N);
+    if (cosi > 0) {
+        N.scale(-1); // Flip the normal to point from the incident medium to the refracting medium
+    }
+
+    // Calculate the relative refractive index (incident to refracting)
+    const eta = n1 / n2;
+    const absCosi = Math.abs(cosi);
+    const sin2t = eta * eta * (1.0 - absCosi * absCosi);
+
+    // Total internal reflection check
+    if (sin2t > 1.0) return null;
+
+    // Calculate the refraction direction (using physically correct signs)
+    const k = Math.sign(cosi) * (eta * absCosi - Math.sqrt(1.0 - sin2t));
+    return I.scale(eta).add(N.scale(k)).normalize();
+}
+
+/**
+ * Handle refraction from air into a material
+ * @param {number} materialIOR - Refractive index of the material
+ * @param {Vector3} incidentDir - Direction of the incident ray (propagation direction)
+ * @param {Vector3} normal - Normal at the interface (pointing from air to the material)
+ * @returns {Vector3|null} - Direction of the refracted ray, returns null if total internal reflection occurs
+ */
+function airToMaterial(materialIOR, incidentDir, normal) {
+    return calculateRefraction(1.0, materialIOR, incidentDir, normal);
+}
+
+/**
+ * This function is used to define the surface shape of glass.
+ * @param {number} x - Normalized value, range [-1, 1]
+ * @param {number} y - Normalized value, range [-1, 1]
+ * @returns {number[]} - [bottom surface height, top surface height, normal x, normal y, normal z], (x, y, z) is the normal line's direction.
+ */
+function defineGlass(x, y) {
+    // ====== Adjustable Parameters ======
+    const midHeight = 0.1;     // Middle height
+    const glassRadius = 1.0;   // Maximum radius of the glass
+    // I tried different curve shapes to find the best effect
+    /* const a = 1.014306;
+    const b = 2.24165e-9;
+    const c = -23.07102; */
+    /* const a = 1.014306;
+    const b = 6.144129000000001e-29;
+    const c = -69.21305; */
+    const a = 0.999753;
+    const b = 2.163425e-9;
+    const c = -23.09065;
+    /* const a = 0.9868176;
+    const b = 2.874165e-14;
+    const c = -34.71221; */
+    // =====================
+
+    const r = Math.sqrt(x * x + y * y);
+
+    if (r <= 1e-4) {
+        return [0, midHeight, 0, 0, -1]; // Center point handling
+    }
+
+    if (r >= glassRadius) {
+        return [0, 0, 0, 0, -1]; // Handling outside the boundary
+    }
+
+    const t = r / glassRadius; // Normalized radius [0, 1]
+    /*
+     * Here I use a formula (latex) to simulate the surface shape of glass
+     * y = Y_{0} - \frac{V_{0}}{K}(1 - e^{-Kx})
+     */
+    const baseHeight = a - (b / c) * (1 - Math.exp(-c * t));
+
+    // Correct height mapping (center: midHeight, edge: 0)
+    const height = midHeight * baseHeight;
+
+    // Calculate derivative (chain rule)
+    const dBaseHeight_dt = -b * Math.exp(-c * t);
+    const dHeight_dt = dBaseHeight_dt * midHeight; // Adjust sign and denominator
+    const dHeight_dr = dHeight_dt / glassRadius;
+
+    // Convert to x/y partial derivatives
+    const dhdx = dHeight_dr * x / r;
+    const dhdy = dHeight_dr * y / r;
+
+    // Calculate normal vector
+    const nx = dhdx;
+    const ny = dhdy;
+    const nz = 1;
+    const len = Math.sqrt(nx * nx + ny * ny + nz * nz);
+
+    return [
+        0,                  // Bottom surface height
+        height,             // Top surface height
+        nx / len,           // Normal x
+        ny / len,           // Normal y
+        nz / len            // Normal z
+    ];
+}
+
+let ctx, glassCtx;
+let isDragging = false;
+let dragOffsetX, dragOffsetY;
+
+document.addEventListener("DOMContentLoaded", function () {
+    const canvas = document.getElementById('canvas');
+    ctx = canvas.getContext('2d');
+    glassCtx = document.getElementById('glass').getContext('2d');
+
+    const img = new Image();
+    img.onload = function () {
+        canvas.setAttribute("width", img.width);
+        canvas.setAttribute("height", img.height);
+        ctx.drawImage(img, 0, 0);
+    };
+
+    img.src = '/background.png';
+
+    img.onerror = function () {
+        console.error('Fail to load image.');
+    };
+
+    glass.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        const rect = glass.getBoundingClientRect();
+        dragOffsetX = e.clientX - rect.left;
+        dragOffsetY = e.clientY - rect.top;
+        glass.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            const containerRect = canvas.getBoundingClientRect();
+
+            let newX = e.clientX - containerRect.left - dragOffsetX;
+            let newY = e.clientY - containerRect.top - dragOffsetY;
+
+            newX = Math.max(0, Math.min(containerRect.width - glass.offsetWidth, newX));
+            newY = Math.max(0, Math.min(containerRect.height - glass.offsetHeight, newY));
+
+            glass.style.left = `${newX}px`;
+            glass.style.top = `${newY}px`;
+
+            updateGlass();
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+        glass.style.cursor = 'move';
+    });
+
+    updateGlass();
+});
+
+/* 
+ * Bilinear interpolation function
+ * This function determines the color to render in the glass canvas.
+ * Imagine a light perpendicular to the webpage entering the glass. After refraction, it intersects with a point on the image below. Based on the intersection point (usually a fractional coordinate), I blend the color values of the surrounding four points according to their weights to determine the color that should be rendered for the corresponding point on the glass.
+ */
+function getColorAtPosition(offsetX, offsetY, x, y) {
+    // Normalize coordinates
+    const x_ = x / 50 - 1;
+    const y_ = y / 50 - 1;
+
+    const [bottom, top, nx, ny, nz] = defineGlass(x_, y_);
+    if (top === 0) return { r: 0, g: 0, b: 0, a: 0 };
+    const normalVec = new Vector3(nx, ny, nz);
+    const inPoint = new Vector3(offsetX + x, offsetY + y, top + 20);
+    const innerLight = airToMaterial(1.5, new Vector3(0, 0, -1), normalVec);
+    const k = -inPoint.z / innerLight.z;
+
+    const dx = inPoint.x + k * innerLight.x;
+    const dy = inPoint.y + k * innerLight.y;
+
+    //console.log(dx, dy);
+
+    if (isNaN(dx) || isNaN(dy)) {
+        return [0, 0, 0, 0];
+    }
+
+    // Get four adjacent pixels
+    const x1 = Math.floor(dx);
+    const y1 = Math.floor(dy);
+    const x2 = x1 + 1;
+    const y2 = y1 + 1;
+
+    // Check if out of canvas bounds
+    const canvasWidth = ctx.canvas.width;
+    const canvasHeight = ctx.canvas.height;
+
+    // Helper function: check if coordinates are within canvas bounds
+    function getPixelSafe(x, y) {
+        if (x < 0 || x >= canvasWidth || y < 0 || y >= canvasHeight) {
+            return [0, 0, 0, 0]; // Out of bounds returns transparent color
+        }
+        return ctx.getImageData(x, y, 1, 1).data;
+    }
+
+    // Get color data for the four points
+    const pixel1 = getPixelSafe(x1, y1);
+    const pixel2 = getPixelSafe(x2, y1);
+    const pixel3 = getPixelSafe(x1, y2);
+    const pixel4 = getPixelSafe(x2, y2);
+
+    // Calculate weights
+    const wx = dx - x1;
+    const wy = dy - y1;
+    const w1 = (1 - wx) * (1 - wy);
+    const w2 = wx * (1 - wy);
+    const w3 = (1 - wx) * wy;
+    const w4 = wx * wy;
+
+    // Blend colors
+    const r = Math.round(
+        pixel1[0] * w1 +
+        pixel2[0] * w2 +
+        pixel3[0] * w3 +
+        pixel4[0] * w4
+    );
+
+    const g = Math.round(
+        pixel1[1] * w1 +
+        pixel2[1] * w2 +
+        pixel3[1] * w3 +
+        pixel4[1] * w4
+    );
+
+    const b = Math.round(
+        pixel1[2] * w1 +
+        pixel2[2] * w2 +
+        pixel3[2] * w3 +
+        pixel4[2] * w4
+    );
+
+    return { r, g, b, a: 255 };
+}
+
+// Update magnifying glass content
+function updateGlass() {
+    // Clear the magnifying glass
+    glassCtx.clearRect(0, 0, glass.width, glass.height);
+
+    // Get the position of the magnifying glass
+    const glassRect = glass.getBoundingClientRect();
+    const containerRect = canvas.getBoundingClientRect();
+
+    const offsetX = glassRect.left - containerRect.left;
+    const offsetY = glassRect.top - containerRect.top;
+
+    // Create an ImageData object (allocate memory once)
+    const imageData = glassCtx.createImageData(glass.width, glass.height);
+    const data = imageData.data;
+
+    for (let y = 0; y < glass.height; y++) {
+        for (let x = 0; x < glass.width; x++) {
+            // Get blended color
+            const color = getColorAtPosition(offsetX, offsetY, x, y);
+
+            // Calculate the position of the pixel in ImageData (each pixel takes 4 bytes)
+            const pos = (y * glass.width + x) * 4;
+
+            // Set RGBA values
+            data[pos] = color.r;     // R
+            data[pos + 1] = color.g; // G
+            data[pos + 2] = color.b; // B
+            data[pos + 3] = color.a; // A
+        }
+    }
+
+    // Draw all pixels at once (performance critical!)
+    glassCtx.putImageData(imageData, 0, 0);
+}
+```
