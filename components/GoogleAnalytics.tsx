@@ -1,13 +1,14 @@
-export default function GoogleAnalytics({ gid }: { gid: string }) {
+export default function GoogleAnalytics() {
     return (
         <>
             <script async src="/gtm.js"></script>
-            <script>
-                {`window.dataLayer = window.dataLayer || [];
+            <script dangerouslySetInnerHTML={{
+                __html: `window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
 
-                gtag('config', '${gid}');`}
+                gtag('config', 'G-BJ6N4EE81Q');`.split("\n").map(e => e.trim()).join("")
+            }}>
             </script>
         </>
     )
