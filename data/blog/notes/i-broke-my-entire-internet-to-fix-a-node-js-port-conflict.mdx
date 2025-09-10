@@ -1,0 +1,47 @@
+---
+title: I Broke My Entire Internet to Fix a Node.js Port Conflict
+date: 2025-09-10
+draft: false
+summary: I narrowed the Windows dynamic port range to solve a port conflict and unknowingly created a system-wide network crisis. Learn how this misconfiguration caused 'buffer space' errors, stalled connections, and how I finally fixed my entire internet.
+---
+
+I just solved a problem that has been haunting me for several days. Recently, my whole network started acting as if it were broken. For any websites I tried to visit, I always needed to refresh multiple times so that all the assets on the website could be fully loaded. Nearly all websites couldn't display anything before the first refresh; some even failed to display anything after 7-8 refreshes. Beyond websites, those applications that needed network connectivity failed to take action most of the time. The most common things I saw these days were different kinds of error messages.
+
+If you've encountered the same problem and want to know directly how to solve it, you can click [here](#Solve) to go straight to the solve part.
+
+## What I've Tried
+
+I tried to use a mobile hotspot instead of the Wi-Fi I usually did, but it didn't work. So I started to think that there must be something wrong with my computer.
+
+The first thing that came to my mind was DNS. I tried different DNS settings and went through so many DNS-related blogs or articles. Nothing works.
+
+Cause I sometimes use a VPN, I began to consider if it was causing some problems. However, this hypothesis proved to be wrong very quickly, because the network still didn't work after I switched off the switch in the VPN program and removed any proxy settings it had set in the system settings panel.
+
+At this moment, I felt utterly hopeless. I'd tried everything I knew and could, but nothing worked. *Will I need to live with such a shitty network for the days ahead and never get the chance to experience fluent network again?* I thought. My heart pressure was lifting every time I tried to visit a website or open a program that needed network.
+
+## The Clue?
+
+At one point, it suddenly occurred to me that maybe I could check the VPN's logs to see if I could find any clues or tips which would help me figure out what the problem was. I selected an error log. It read something like:
+
+```
+...An operation on a socket could not be performed because the system lacked sufficient buffer space or because a queue was full.
+```
+
+Oh, god. What I'd done several days before suddenly came into my mind.
+
+I worked on some web applications, which need port 3000 to run locally. Most of the time when I tried to start a server on port 3000, I would encounter the `EACCES error` I've been talking about in [another blog](/blog/node.js/node-js-eacces-error-when-listening-on-some-ports/). This `EACCES error` is because the Windows system had occupied port 3000 for temporary usage. I didn't want to free the port from the system every time I needed to start a server, so I searched on the internet to check if I could configure the range of ports the system could use.
+
+Yeah, there were indeed such methods. At that time, I didn't realize that the system needs so many temporary ports to keep the network work well, so I changed the range to give it only around 1000 ports available (it used to be like 14000 or similar). Later, you know what happened. So this is the problem.
+
+## Solve
+
+Since we've known what the problem came from, it's easy to solve it. Just reassign sufficient ports to the system:
+
+```
+// First check how many ports are available to the system.
+netsh int ipv4 show dynamicport tcp
+// Then reassign the range. Here I gave it about 14,000 ports
+netsh int ipv4 set dynamicport tcp start=1024 num=15000
+```
+
+Everything works fine now.
