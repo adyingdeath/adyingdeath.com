@@ -1,0 +1,42 @@
+---
+title: How to Enable IntelliSense for Unity Projects in VS Code
+date: 2025-12-05
+---
+
+Though Unity uses Visual Studio as its default IDE, I still prefer VS Code. It's my everyday editor for programming. But there wasn't any IntelliSense from the first day I started using it with my Unity project, and I had been writing code without IntelliSense for quite some time. I can write code, though, but it's not comfortable. I even need to search on Google for some basic attributes of GameObject or so.
+
+Today, after some searching, I've figured out how to bring IntelliSense for Unity projects into VS Code, so you can write code just like in Visual Studio.
+
+## Prepare the Plugins
+
+You should first install these plugins:
+
+### C#
+
+![](/static/images/blog/2025-12-05_22-01-16.png)
+
+### C# Dev Kit
+
+![](/static/images/blog/2025-12-05_22-06-15.png)
+
+### Unity
+
+![](/static/images/blog/2025-12-05_22-07-35.png)
+
+## Configure Unity
+
+After installing the plugins, we're halfway there.
+
+Firstly, open one of your Unity projects, find `Edit > Preferences > External Tools`. Then, you can find an option called `External Script Editor`, exactly the first option on my Unity. Click the dropdown. Click `Browse...`. Go to the path where your VS Code is installed and select the VS Code executable file.
+
+![](/static/images/blog/2025-12-05_22-15-05.png)
+
+Secondly, uncheck all the options in the section named `Generate .csproj files for:`, just like the image below. Then, click the `Regenerate project files` button. You will find some new files generated in the project folder, like `.sln`, `.csproj`, etc.
+
+![](/static/images/blog/2025-12-05_22-15-51.png)
+
+Finally, close VS Code and reopen it. Or open the Command Palette (the shortcut is `Ctrl + Shift + P` on my VS Code) and run `Developer: Reload Window`. Wait patiently until all the resources complete loading. Now, you can try writing code to see if there is IntelliSense.
+
+## Reference
+
+The [Configure Unity](#configure-unity) part is from someone's comment online; you can find it [here](https://discussions.unity.com/t/intellisense-not-working-for-visual-studio-code/773026/8).
