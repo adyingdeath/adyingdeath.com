@@ -37,6 +37,38 @@ Secondly, uncheck all the options in the section named `Generate .csproj files f
 
 Finally, close VS Code and reopen it. Or open the Command Palette (the shortcut is `Ctrl + Shift + P` on my VS Code) and run `Developer: Reload Window`. Wait patiently until all the resources complete loading. Now, you can try writing code to see if there is IntelliSense.
 
+## If you encounter "No required version of a NET SDK was found"
+
+If C# Dev Kit shows you a message saying "No required version of a NET SDK was found", like in the image below:
+
+![](/static/images/blog/mvqf927h7qktnhsf.png)
+
+Run `dotnet --info`. In the `.NET SDKs installed:` section, you'll see your installed .NET SDKs.
+
+```
+# If there are .NET SDKs installed, it will be something like below.
+.NET SDKs installed:
+  x.x.xxx [xxx\dotnet\sdk]
+
+# If there aren't .NET SDKs installed, it will be something like below.
+.NET SDKs installed:
+  No SDKs were found.
+```
+
+Unity doesn't provide a complete .NET SDK for development, so you need to install it yourself. The output of `dotnet --info` includes a link to the SDKs download page. Go there, download an SDK, and install it. After installation completes, close VS Code completely and reopen your Unity project with VS Code, and it should work.
+
+### The problem still exists
+
+**However**, if you still see the "No required version of a NET SDK was found" message, you need to do a bit more.
+
+> Check if there are files under `C:\Program Files (x86)\dotnet`
+>
+> If so, delete them all. Make sure to backup the files first, or you can just move them away to try.
+>
+> Then, open your project again to see if it works.
+
 ## Reference
 
-The [Configure Unity](#configure-unity) part is from someone's comment online; you can find it [here](https://discussions.unity.com/t/intellisense-not-working-for-visual-studio-code/773026/8).
+The [Configure Unity](#configure-unity) section is from an online comment, which you can find [here](https://discussions.unity.com/t/intellisense-not-working-for-visual-studio-code/773026/8).
+
+The [The problem still exists](#the-problem-still-exists) section is from [solid1](https://stackoverflow.com/users/19321395/solid1) on Stack Overflow, available [here](https://stackoverflow.com/a/73248077).
