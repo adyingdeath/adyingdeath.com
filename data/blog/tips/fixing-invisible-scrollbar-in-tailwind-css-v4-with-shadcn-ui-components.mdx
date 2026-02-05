@@ -1,0 +1,72 @@
+---
+title: "Fixing Invisible Scrollbar in Tailwind CSS v4 with shadcn/ui Components"
+summary: How to fix invisible scrollbar issue when using shadcn/ui ScrollArea component with Tailwind CSS v4.
+draft: false
+date: 2026-02-05
+---
+
+I recently encountered a frustrating issue while working with the shadcn/ui ScrollArea component in a project using Tailwind CSS v4. The scrollbar was completely invisible even though the scroll functionality was working.
+
+## The Problem
+
+I was using the shadcn/ui ScrollArea component with the following code:
+
+```tsx
+<ScrollArea className="flex-1">
+  <div className="space-y-6 p-6">
+    {/* content here */}
+  </div>
+</ScrollArea>
+```
+
+The scroll functionality worked perfectly - I could scroll through the content using my mouse wheel or keyboard, but the scrollbar itself was nowhere to be seen.
+
+## Investigation
+
+When I inspected the element in DevTools and compared it with the shadcn/ui website, I noticed something interesting. On the shadcn website, the scrollbar styles had proper selectors:
+
+```css
+.data-vertical\:w-2\.5:where([data-orientation="vertical"]) {
+  width: calc(var(--spacing) * 2.5);
+}
+```
+
+But in my project, I only found empty selectors:
+
+```css
+.data-vertical\:w-2\.5 {
+}
+```
+
+The key difference is the `:where([data-orientation="vertical"])` selector that was missing in my build. This selector is crucial because it matches elements with the specific data attribute that Base UI's ScrollArea component uses.
+
+## The Root Cause
+
+The shadcn/ui ScrollArea component uses Tailwind classes like `data-vertical:w-2.5` and `data-horizontal:h-2.5` to style the scrollbar. In Tailwind CSS v4, these custom variants need to be explicitly defined using `@custom-variant` before they can be recognized and transformed into proper CSS selectors.
+
+Without these custom variant definitions, Tailwind v4 generates the class names but doesn't attach the proper selector logic, resulting in empty CSS rules.
+
+## The Solution
+
+The fix is straightforward. Add the custom variant definitions in your CSS file (typically `index.css` or a similar CSS entry point):
+
+```css
+@custom-variant data-vertical (&[data-orientation="vertical"]);
+@custom-variant data-horizontal (&[data-orientation="horizontal"]);
+```
+
+Place these definitions near your other `@custom-variant` declarations, usually right after the Tailwind imports:
+
+```css
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+@custom-variant data-vertical (&[data-orientation="vertical"]);
+@custom-variant data-horizontal (&[data-orientation="horizontal"]);
+```
+
+After adding these definitions and restarting your dev server, the scrollbar should appear correctly with all its styles applied.
+
+## Conclusion
+
+Tailwind CSS v4 requires explicit custom variant declarations for non-standard variants like `data-vertical:` and `data-horizontal:`. This is a departure from v3 where these types of selectors were handled differently. If you're migrating to v4 or starting a new project with it and using shadcn/ui components, make sure to include these custom variant definitions to avoid invisible scrollbars and similar styling issues.
