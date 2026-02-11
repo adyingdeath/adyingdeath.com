@@ -1,4 +1,5 @@
 import { allPosts } from "content-collections";
+import { MDXContent } from "@content-collections/mdx/react";
 
 export default async function page({
   params,
@@ -16,7 +17,9 @@ export default async function page({
     <div>
       <div>{post.title}</div>
       <div>{post.summary}</div>
-      <div>{post.content}</div>
+      <div>
+        <MDXContent code={post.mdx}></MDXContent>
+      </div>
     </div>
   );
 }
