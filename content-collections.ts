@@ -8,7 +8,7 @@ const posts = defineCollection({
   include: "**/*.mdx",
   schema: z.object({
     title: z.string(),
-    summary: z.string(),
+    summary: z.string().default("nothing here..."),
     content: z.string(),
   }),
   transform: async (document, context) => {
