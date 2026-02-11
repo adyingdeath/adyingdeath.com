@@ -16,9 +16,9 @@ export default async function page({
 
   return (
     <div className="flex flex-col items-center">
-      <div className="mt-10 text-6xl">{post.title}</div>
-      <div className="mt-6">{post.summary}</div>
-      <article className="mt-4 prose lg:prose-xl">
+      <article className="mt-4 prose dark:prose-invert lg:prose-xl prose-adyingdeath">
+        <h1 className="mt-10 text-center text-6xl">{post.title}</h1>
+        <div className="mt-6">{post.summary}</div>
         <MDXContent code={post.mdx}></MDXContent>
       </article>
     </div>
