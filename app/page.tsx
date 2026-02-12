@@ -13,7 +13,7 @@ function PostItem({
   return (
     <Link href={url} target="_blank">
       <div className="group relative m-3 p-6 bg-card border border-border rounded-xl shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300 cursor-pointer overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/0 to-primary/5 group-hover:from-primary/5 group-hover:via-primary/2 group-hover:to-primary/10 transition-all duration-300" />
+        <div className="absolute inset-0 bg-linear-to-br from-primary/0 via-primary/0 to-primary/5 group-hover:from-primary/5 group-hover:via-primary/2 group-hover:to-primary/10 transition-all duration-300" />
         <div className="relative z-10">
           <h2 className="text-xl font-semibold text-card-foreground group-hover:text-primary transition-colors duration-300 mb-2">{title}</h2>
           <p className="text-muted-foreground/80 group-hover:text-muted-foreground transition-colors duration-300 line-clamp-2">{summary}</p>
