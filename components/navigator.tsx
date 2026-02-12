@@ -11,7 +11,7 @@ export default function Navigator() {
               <li key={link.href}>
                 <Link 
                   href={link.href} 
-                  className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200"
+                  className="text-sm font-medium text-foreground hover:underline"
                 >
                   {link.title}
                 </Link>
