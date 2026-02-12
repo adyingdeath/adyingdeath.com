@@ -1,9 +1,30 @@
+import type { Metadata } from "next";
 import { allPosts } from "content-collections";
 import { MDXContent } from "@content-collections/mdx/react";
 import { standardizePath } from "@/app/utils/compare-path";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string[] }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = allPosts.find((p) => standardizePath(p._meta.path) === slug.join("/"));
+
+  if (post === undefined) {
+    return {
+      title: "Post Not Found",
+    };
+  }
+
+  return {
+    title: post.title,
+    description: post.summary,
+  };
+}
 
 export default async function page({
   params,
