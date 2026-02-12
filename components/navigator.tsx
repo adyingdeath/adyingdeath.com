@@ -1,23 +1,57 @@
+"use client";
+
 import Link from "next/link";
+import { Menu } from "lucide-react";
 import headerNavLinks from "@/data/headerNavLinks";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
 
 export default function Navigator() {
   return (
     <nav className="w-full sticky top-0 z-50 py-4">
-      <div className="max-w-md mx-auto">
-        <div className="bg-muted/50 backdrop-blur-sm border border-border/50 rounded-full px-6 py-3">
-          <ul className="flex items-center justify-center gap-6">
+      <div className="max-w-md mx-auto px-4">
+        <div className="bg-muted/50 backdrop-blur-sm border border-border/50 rounded-full px-4 py-3">
+          <div className="hidden sm:flex items-center justify-center gap-6">
             {headerNavLinks.map((link) => (
-              <li key={link.href}>
-                <Link 
-                  href={link.href} 
-                  className="text-sm font-medium text-foreground hover:underline"
-                >
-                  {link.title}
-                </Link>
-              </li>
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-foreground hover:underline"
+              >
+                {link.title}
+              </Link>
             ))}
-          </ul>
+          </div>
+          <div className="sm:hidden flex items-center justify-end">
+            <Drawer direction="right">
+              <DrawerTrigger asChild>
+                <Button variant="ghost" size="icon" className="cursor-pointer">
+                  <Menu size={20} />
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent title="Website navigator">
+                <ul className="flex flex-col gap-1 p-4">
+                  {headerNavLinks.map((link) => (
+                    <li key={link.href}>
+                      <DrawerClose asChild>
+                        <Link
+                          href={link.href}
+                          className="block px-4 py-2 text-sm font-medium text-foreground hover:bg-background/50 rounded-lg cursor-pointer"
+                        >
+                          {link.title}
+                        </Link>
+                      </DrawerClose>
+                    </li>
+                  ))}
+                </ul>
+              </DrawerContent>
+            </Drawer>
+          </div>
         </div>
       </div>
     </nav>
