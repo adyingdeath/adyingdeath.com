@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import WidthLimit from "@/components/container";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -61,7 +62,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto px-4 py-12">
+      <WidthLimit className="my-12">
         <div className="mb-16 text-center">
           <h1 className="text-5xl font-bold text-foreground mb-4 tracking-tight">
             Hi, I'm adyingdeath
@@ -108,7 +109,7 @@ export default function Home() {
             </div>
           </div>
         )}
-      </div>
+      </WidthLimit>
     </div>
   );
 }
