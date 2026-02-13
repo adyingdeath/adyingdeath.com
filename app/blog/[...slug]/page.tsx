@@ -40,7 +40,7 @@ export default async function page({
   }
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="my-12 flex flex-col items-center">
       <article className={cn(
         "px-4 prose prose-adyingdeath dark:prose-invert",
         "prose-sm sm:prose-base md:prose-lg lg:prose-xl"
