@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
+import { format } from "date-fns";
 
 const blogCardVariants = cva("", {
   variants: {
@@ -50,7 +51,7 @@ function BlogCard({
     "text-muted-foreground": variant === "default",
   });
 
-  const formattedDate = new Date(date).toLocaleDateString();
+  const formattedDate = format(new Date(date), "MMMM d, yyyy");
 
   return (
     <Link href={url} className="block group">

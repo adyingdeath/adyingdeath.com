@@ -5,6 +5,7 @@ import { standardizePath } from "@/app/utils/compare-path";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 
 export async function generateMetadata({
   params,
@@ -46,7 +47,7 @@ export default async function page({
       )}>
         <h1 className="text-center">{post.title}</h1>
         <p className="mt-6">
-          <Badge className="mr-2" variant="outline">{new Date(post.date).toLocaleDateString()}</Badge>
+          <Badge className="mr-2" variant="outline">{format(new Date(post.date), "MMMM d, yyyy")}</Badge>
           <span className="opacity-80">{post.summary}</span>
         </p>
         <Separator />
