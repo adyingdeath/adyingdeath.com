@@ -12,8 +12,9 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const featuredPost = allPosts[0];
-  const recentPosts = allPosts.slice(1, 4);
+  const sortedPosts = [...allPosts].sort((a, b) => b.date.localeCompare(a.date));
+  const featuredPost = sortedPosts[0];
+  const recentPosts = sortedPosts.slice(1, 4);
 
   return (
     <div className="min-h-screen bg-background">
