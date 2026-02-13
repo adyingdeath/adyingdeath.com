@@ -1,19 +1,14 @@
 import type { Metadata } from "next";
-import { allPosts } from "content-collections";
-import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import WidthLimit from "@/components/container";
 import BlogCard from "@/components/blog-card";
+import { sortedPosts } from "@/app/utils/sorted-posts";
 
 export const metadata: Metadata = {
   title: "Blog",
 };
 
 export default function BlogPage() {
-  const sortedPosts = [...allPosts].sort((a, b) => 
-    new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
-
   return (
     <div className="min-h-screen bg-background">
       <WidthLimit className="my-12">

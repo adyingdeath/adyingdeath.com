@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
-import { allPosts } from "content-collections";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import WidthLimit from "@/components/container";
 import BlogCard from "@/components/blog-card";
+import { sortedPosts } from "@/app/utils/sorted-posts";
 
 export const metadata: Metadata = {
   title: "Home",
 };
 
 export default function Home() {
-  const sortedPosts = [...allPosts].sort((a, b) => b.date.localeCompare(a.date));
   const featuredPost = sortedPosts[0];
   const recentPosts = sortedPosts.slice(1, 4);
 
