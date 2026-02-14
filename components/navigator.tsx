@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { Menu } from "lucide-react";
 import headerNavLinks from "@/data/headerNavLinks";
@@ -11,6 +9,7 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import ThemeToggle from "@/components/theme-toggle";
 
 export default function Navigator() {
   return (
@@ -44,6 +43,9 @@ export default function Navigator() {
                 ))}
               </div>
             </div>
+            <div className="hidden sm:block">
+              <ThemeToggle />
+            </div>
             <div className="sm:hidden">
               <Drawer direction="right">
                 <DrawerTrigger asChild>
@@ -65,6 +67,11 @@ export default function Navigator() {
                         </DrawerClose>
                       </li>
                     ))}
+                    <li>
+                      <div className="px-4 py-2">
+                        <ThemeToggle />
+                      </div>
+                    </li>
                   </ul>
                 </DrawerContent>
               </Drawer>
