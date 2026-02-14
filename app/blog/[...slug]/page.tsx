@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import WidthLimit from "@/components/container";
 
 export async function generateMetadata({
   params,
@@ -40,7 +41,7 @@ export default async function page({
   }
 
   return (
-    <div className="my-12 flex flex-col items-center">
+    <WidthLimit>
       <article className={cn(
         "px-4 prose prose-adyingdeath dark:prose-invert",
         "prose-sm sm:prose-base md:prose-lg lg:prose-xl"
@@ -53,6 +54,6 @@ export default async function page({
         <Separator />
         <MDXContent code={post.mdx}></MDXContent>
       </article>
-    </div>
+    </WidthLimit>
   );
 }

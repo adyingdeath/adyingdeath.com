@@ -19,10 +19,10 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <WidthLimit className="my-12">
         <div className="mb-16 text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 tracking-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 tracking-tight">
             Hi, I'm adyingdeath
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Developer, creator, lifelong learner. Building things that matter.
           </p>
         </div>

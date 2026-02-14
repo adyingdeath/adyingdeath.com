@@ -39,7 +39,7 @@ function BlogCard({
   const titleClasses = cn(
     "font-semibold text-foreground group-hover:text-primary transition-colors duration-300",
     {
-      "text-2xl mb-3": variant === "featured",
+      "text-lg mb-3": variant === "featured",
       "text-lg mb-2 line-clamp-1": variant === "recent",
       "text-xl mb-2 line-clamp-1": variant === "default",
     }
@@ -56,7 +56,11 @@ function BlogCard({
   return (
     <Link href={url} className="block group">
       <div className={cn(blogCardVariants({ variant }), "cursor-pointer")}>
-        <h2 className={titleClasses}>{title}</h2>
+        {variant === "default" ? (
+          <h2 className={titleClasses}>{title}</h2>
+        ) : (
+          <h3 className={titleClasses}>{title}</h3>
+        )}
         <p className={summaryClasses}>
           <Badge variant="outline">{formattedDate}</Badge> {summary}
         </p>
