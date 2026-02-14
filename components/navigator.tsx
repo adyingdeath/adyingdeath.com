@@ -19,7 +19,7 @@ export default function Navigator() {
         <div className="bg-muted/50 backdrop-blur-sm border border-border/50 rounded-full px-4 py-3">
           <div className="flex items-center justify-between gap-2">
             <Avatar>
-              <AvatarImage src="/static/favicons/android-chrome-96x96.png" alt="Avatar" />
+              <AvatarImage src="/web-app-manifest-192x192.png" alt="Avatar" />
               <AvatarFallback>AD</AvatarFallback>
             </Avatar>
             <div className="flex items-center gap-4 flex-1 justify-center">
