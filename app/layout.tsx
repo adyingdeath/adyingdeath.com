@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     template: "%s | adyingdeath's blog"
   },
   description: "Sharing technology, thoughts, and life",
+  other: {
+    "apple-mobile-web-app-title": "adyingdeath",
+  },
 };
 
 export default function RootLayout({
