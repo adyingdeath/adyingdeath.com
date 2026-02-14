@@ -7,6 +7,13 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import WidthLimit from "@/components/container";
+import localFont from 'next/font/local'
+ 
+const mapleMono = localFont({
+  src: './MapleMono-Regular.ttf',
+  display: 'swap',
+  variable: '--maplemono',
+})
 
 export async function generateMetadata({
   params,
@@ -44,7 +51,7 @@ export default async function page({
     <WidthLimit>
       <article className={cn(
         "px-4 prose prose-adyingdeath dark:prose-invert",
-        "prose-sm sm:prose-base md:prose-lg lg:prose-xl"
+        "prose-sm sm:prose-base md:prose-lg lg:prose-xl",
       )}>
         <h1 className="text-center">{post.title}</h1>
         <p className="mt-6">
@@ -52,7 +59,12 @@ export default async function page({
           <span className="opacity-80">{post.summary}</span>
         </p>
         <Separator />
-        <MDXContent code={post.mdx}></MDXContent>
+        <MDXContent
+          code={post.mdx}
+          components={{
+            code: ({ children }) => <code className={`${mapleMono.className}`}>{children}</code>
+          }}
+        />
       </article>
     </WidthLimit>
   );
