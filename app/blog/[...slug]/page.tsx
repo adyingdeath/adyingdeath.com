@@ -7,13 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import WidthLimit from "@/components/container";
-import localFont from 'next/font/local'
- 
-const mapleMono = localFont({
-  src: './MapleMono-Regular.ttf',
-  display: 'swap',
-  variable: '--maplemono',
-})
+import { mdxComponents } from "@/components/mdx/mdx-components";
 
 export async function generateMetadata({
   params,
@@ -61,9 +55,7 @@ export default async function page({
         <Separator />
         <MDXContent
           code={post.mdx}
-          components={{
-            code: ({ children }) => <code className={`${mapleMono.className}`}>{children}</code>
-          }}
+          components={mdxComponents}
         />
       </article>
     </WidthLimit>
