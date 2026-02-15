@@ -1,6 +1,7 @@
 import { defineCollection, defineConfig } from "@content-collections/core";
 import { compileMDX } from "@content-collections/mdx";
 import { z } from "zod";
+import rehypeCodeblock from "@/lib/rehype-codeblock";
  
 const posts = defineCollection({
   name: "posts",
@@ -13,7 +14,10 @@ const posts = defineCollection({
     date: z.string(),
   }),
   transform: async (document, context) => {
-    const mdx = await compileMDX(context, document);
+    const mdx = await compileMDX(context, document, {
+      remarkPlugins: [],
+      rehypePlugins: [rehypeCodeblock],
+    });
     return {
       ...document,
       mdx

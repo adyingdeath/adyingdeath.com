@@ -1,13 +1,5 @@
-import localFont from 'next/font/local'
-
-const mapleMono = localFont({
-  src: './MapleMono-Regular.ttf',
-  display: 'swap',
-  variable: '--maplemono',
-})
+import { CustomCodeBlock } from "./custom-code-block"
 
 export const mdxComponents = {
-  code: ({ children }: { children: React.ReactNode }) => (
-    <code className={mapleMono.className}>{children}</code>
-  ),
+  pre: CustomCodeBlock,
 }
