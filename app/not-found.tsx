@@ -15,8 +15,9 @@ export default function NotFound() {
             Lost in the Void
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            This page is playing hide and seek...<br />
-            and it's winning.
+            This page is playing hide and seek...
+            <br />
+            and it&apos;s winning.
           </p>
           <Link href="/">
             <Button size="lg" className="cursor-pointer">

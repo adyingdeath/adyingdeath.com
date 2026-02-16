@@ -22,32 +22,30 @@ export default function About() {
         <div className="flex flex-col items-center">
           <div className="prose-adyingdeath prose dark:prose-invert">
             <p>
-              Hi, I'm adyingdeath. I'm a developer passionate about building useful
-              tools and applications that solve real problems.
+              Hi, I&apos;m adyingdeath. I&apos;m a developer passionate about
+              building useful tools and applications that solve real problems.
             </p>
 
             <h2>What I Do</h2>
             <p>
-              I work on various projects ranging from web applications to developer
-              tools. My focus is on creating intuitive interfaces and writing clean,
-              maintainable code.
+              I work on various projects ranging from web applications to
+              developer tools. My focus is on creating intuitive interfaces and
+              writing clean, maintainable code.
             </p>
 
             <h2>My Projects</h2>
             <p>
               Check out my&nbsp;
-              <Link href="/projects">
-                projects page
-              </Link>
-              &nbsp;to see all the tools and applications I've built, including Mightool,
-              Promptcove, and INJ.
+              <Link href="/projects">projects page</Link>
+              &nbsp;to see all the tools and applications I&apos;ve built,
+              including Mightool, Promptcove, and INJ.
             </p>
 
             <h2>Get in Touch</h2>
             <p>
-              Feel free to explore my blog and projects. If you'd like to connect,
-              you can reach out through my social channels or check out my GitHub
-              profile.
+              Feel free to explore my blog and projects. If you&apos;d like to
+              connect, you can reach out through my social channels or check out
+              my GitHub profile.
             </p>
           </div>
         </div>
