@@ -12,9 +12,11 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen bg-background">
       <WidthLimit className="my-12">
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-4 tracking-tight">Blog</h1>
-          <p className="text-muted-foreground">
+        <div className="mb-12 flex flex-col items-center">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-tight">
+            Blog
+          </h1>
+          <p className="text-muted-foreground text-xl max-w-2xl">
             Thoughts, tutorials, and updates from my journey as a developer.
           </p>
         </div>
