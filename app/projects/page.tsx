@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 import WidthLimit from "@/components/container";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
@@ -25,17 +26,17 @@ export default function Projects() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {projectsData.map((project, index) => (
             <Card key={index} className="hover:shadow-lg transition-shadow">
-              {project.imgSrc && (
-                <CardContent className="p-0">
-                  <div className="aspect-video w-full overflow-hidden">
-                    <img
-                      src={project.imgSrc}
-                      alt={project.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </CardContent>
-              )}
+              <CardContent className="p-0">
+                <div className="aspect-video w-full overflow-hidden">
+                  <Image
+                    src={project.img.src}
+                    alt={project.title}
+                    width={project.img.width}
+                    height={project.img.height}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </CardContent>
               <CardHeader>
                 <CardTitle className="text-lg">{project.title}</CardTitle>
                 <CardDescription>{project.description}</CardDescription>
