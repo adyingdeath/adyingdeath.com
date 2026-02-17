@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Separator } from "@/components/ui/separator";
 import WidthLimit from "@/components/container";
 import BlogCard from "@/components/blog-card";
-import { sortedPosts } from "@/app/utils/sorted-posts";
+import { sortedPosts } from "@/lib/blog/posts";
 import { getCanonicalUrl } from "@/lib/site-config";
 import {
   Pagination,

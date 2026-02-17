@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import WidthLimit from "@/components/container";
 import BlogCard from "@/components/blog-card";
-import { sortedPosts } from "@/app/utils/sorted-posts";
-import { standardizePath } from "@/app/utils/standardize-path";
+import { sortedPosts } from "@/lib/blog/posts";
+import { standardizePath } from "@/lib/path";
 import { getCanonicalUrl } from "@/lib/site-config";
 
 const FEATURED_POST_SLUG = "forfun/liquid-glass";

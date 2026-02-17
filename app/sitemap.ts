@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { allPosts } from "content-collections";
 
-import { standardizePath } from "@/app/utils/standardize-path";
+import { standardizePath } from "@/lib/path";
 
 //export const dynamic = "force-dynamic";
 
