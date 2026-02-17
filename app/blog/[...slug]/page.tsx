@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { allPosts } from "content-collections";
 import { MDXContent } from "@content-collections/mdx/react";
-import { standardizePath } from "@/app/utils/compare-path";
+import { standardizePath } from "@/app/utils/standardize-path";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -50,7 +50,7 @@ export default async function page({
   }
 
   return (
-    <WidthLimit>
+    <WidthLimit className="my-12">
       <article
         className={cn(
           "px-4 prose prose-adyingdeath dark:prose-invert",

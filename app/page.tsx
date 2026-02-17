@@ -6,7 +6,11 @@ import { Separator } from "@/components/ui/separator";
 import WidthLimit from "@/components/container";
 import BlogCard from "@/components/blog-card";
 import { sortedPosts } from "@/app/utils/sorted-posts";
+import { standardizePath } from "@/app/utils/standardize-path";
 import { getCanonicalUrl } from "@/lib/site-config";
+
+const FEATURED_POST_SLUG = "forfun/liquid-glass";
+const RECENT_POSTS_COUNT = 4;
 
 export const metadata: Metadata = {
   title: "Home",
@@ -16,8 +20,17 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const featuredPost = sortedPosts[0];
-  const recentPosts = sortedPosts.slice(1, 4);
+  const featuredPost =
+    sortedPosts.find(
+      (post) => standardizePath(post._meta.path) === FEATURED_POST_SLUG,
+    ) ?? sortedPosts[0];
+  const recentPosts = sortedPosts
+    .filter(
+      (post) =>
+        standardizePath(post._meta.path) !==
+        standardizePath(featuredPost?._meta.path),
+    )
+    .slice(0, RECENT_POSTS_COUNT);
 
   return (
     <div className="min-h-screen bg-background">
@@ -32,7 +45,7 @@ export default function Home() {
         </div>
 
         {featuredPost && (
-          <div className="mb-12">
+          <div className="w-full mb-12">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-semibold text-foreground">
                 Featured Post
