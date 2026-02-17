@@ -4,6 +4,7 @@ import "./globals.css";
 import Navigator from "@/components/navigator";
 import Footer from "@/components/footer";
 import GoogleAnalytics from "@/components/google-analytics";
+import { siteUrl } from "@/lib/site-config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,6 +22,9 @@ export const metadata: Metadata = {
     template: "%s | adyingdeath's blog"
   },
   description: "Sharing technology, thoughts, and life",
+  alternates: {
+    canonical: siteUrl,
+  },
   other: {
     "apple-mobile-web-app-title": "adyingdeath",
   },

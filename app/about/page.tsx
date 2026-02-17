@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import WidthLimit from "@/components/container";
+import { getCanonicalUrl } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "About",
+  alternates: {
+    canonical: getCanonicalUrl("/about"),
+  },
 };
 
 export default function About() {

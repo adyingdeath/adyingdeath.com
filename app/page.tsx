@@ -6,9 +6,13 @@ import { Separator } from "@/components/ui/separator";
 import WidthLimit from "@/components/container";
 import BlogCard from "@/components/blog-card";
 import { sortedPosts } from "@/app/utils/sorted-posts";
+import { getCanonicalUrl } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Home",
+  alternates: {
+    canonical: getCanonicalUrl("/"),
+  },
 };
 
 export default function Home() {

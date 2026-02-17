@@ -4,9 +4,13 @@ import { ExternalLink } from "lucide-react";
 import WidthLimit from "@/components/container";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import projectsData from "@/data/projectsData";
+import { getCanonicalUrl } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Projects",
+  alternates: {
+    canonical: getCanonicalUrl("/projects"),
+  },
 };
 
 export default function Projects() {

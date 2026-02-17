@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import WidthLimit from "@/components/container";
 import { mdxComponents } from "@/components/mdx/mdx-components";
+import { getCanonicalUrl } from "@/lib/site-config";
 
 export async function generateMetadata({
   params,
@@ -15,7 +16,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string[] }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = allPosts.find((p) => standardizePath(p._meta.path) === slug.join("/"));
+  const post = allPosts.find(
+    (p) => standardizePath(p._meta.path) === slug.join("/"),
+  );
 
   if (post === undefined) {
     return {
@@ -26,6 +29,9 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.summary,
+    alternates: {
+      canonical: getCanonicalUrl(`/blog/${standardizePath(post._meta.path)}`),
+    },
   };
 }
 
@@ -35,7 +41,9 @@ export default async function page({
   params: Promise<{ slug: string[] }>;
 }) {
   const { slug } = await params;
-  const post = allPosts.find((p) => standardizePath(p._meta.path) === slug.join("/"));
+  const post = allPosts.find(
+    (p) => standardizePath(p._meta.path) === slug.join("/"),
+  );
 
   if (post === undefined) {
     return <div>Post Not Found</div>;
@@ -43,20 +51,21 @@ export default async function page({
 
   return (
     <WidthLimit>
-      <article className={cn(
-        "px-4 prose prose-adyingdeath dark:prose-invert",
-        "prose-sm sm:prose-base md:prose-lg lg:prose-xl",
-      )}>
+      <article
+        className={cn(
+          "px-4 prose prose-adyingdeath dark:prose-invert",
+          "prose-sm sm:prose-base md:prose-lg lg:prose-xl",
+        )}
+      >
         <h1 className="text-center">{post.title}</h1>
         <p className="mt-6">
-          <Badge className="mr-2" variant="outline">{format(new Date(post.date), "MMMM d, yyyy")}</Badge>
+          <Badge className="mr-2" variant="outline">
+            {format(new Date(post.date), "MMMM d, yyyy")}
+          </Badge>
           <span className="opacity-80">{post.summary}</span>
         </p>
         <Separator />
-        <MDXContent
-          code={post.mdx}
-          components={mdxComponents}
-        />
+        <MDXContent code={post.mdx} components={mdxComponents} />
       </article>
     </WidthLimit>
   );

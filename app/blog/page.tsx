@@ -3,6 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import WidthLimit from "@/components/container";
 import BlogCard from "@/components/blog-card";
 import { sortedPosts } from "@/app/utils/sorted-posts";
+import { getCanonicalUrl } from "@/lib/site-config";
 import {
   Pagination,
   PaginationContent,
@@ -15,6 +16,9 @@ import {
 
 export const metadata: Metadata = {
   title: "Blog",
+  alternates: {
+    canonical: getCanonicalUrl("/blog"),
+  },
 };
 
 const POSTS_PER_PAGE = 10;
