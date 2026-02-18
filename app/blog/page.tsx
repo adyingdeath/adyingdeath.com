@@ -16,6 +16,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Blog",
+  description: "Thoughts, tutorials, and updates from my journey as a developer. Browse through articles on technology, programming, and life.",
   alternates: {
     canonical: getCanonicalUrl("/blog"),
   },

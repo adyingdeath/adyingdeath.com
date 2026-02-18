@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: siteUrl,
   title: {
     default: "adyingdeath's blog",
     template: "%s | adyingdeath's blog"
@@ -24,6 +25,23 @@ export const metadata: Metadata = {
   description: "Sharing technology, thoughts, and life",
   alternates: {
     canonical: siteUrl,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    siteName: "adyingdeath's blog",
+    images: [
+      "/static/images/twitter-card.png",
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "adyingdeath's blog",
+    description: "Sharing technology, thoughts, and life",
+    images: [
+      "/static/images/twitter-card.png",
+    ],
   },
   other: {
     "apple-mobile-web-app-title": "adyingdeath",

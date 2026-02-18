@@ -13,7 +13,8 @@ const FEATURED_POST_SLUG = "forfun/liquid-glass";
 const RECENT_POSTS_COUNT = 4;
 
 export const metadata: Metadata = {
-  title: "Home",
+  title: "Home | adyingdeath's blog",
+  description: "Hi, I'm adyingdeath. Developer, creator, lifelong learner building things that matter. Explore my blog posts and projects.",
   alternates: {
     canonical: getCanonicalUrl("/"),
   },

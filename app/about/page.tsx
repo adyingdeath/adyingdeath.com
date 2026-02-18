@@ -5,6 +5,7 @@ import { getCanonicalUrl } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "About",
+  description: "Hi, I'm adyingdeath. A developer passionate about building useful tools and applications that solve real problems. Get to know me better.",
   alternates: {
     canonical: getCanonicalUrl("/about"),
   },

@@ -9,6 +9,7 @@ import { getCanonicalUrl } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Projects",
+  description: "A collection of my work and side projects. Explore web applications, developer tools, and creative projects.",
   alternates: {
     canonical: getCanonicalUrl("/projects"),
   },
