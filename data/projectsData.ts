@@ -18,9 +18,9 @@ const projectsData: Project[] = [
       width: 320,
       height: 180,
     },
-    href: 'https://www.mightool.com/en/',
+    href: 'https://www.mightool.com/',
   },
-  {
+  /* {
     title: 'Promptcove: helpful prompt manager',
     description: `Imagine being able to travel back in time or to the future. Simple turn the knob
     to the desired date and press "Go". No more worrying about lost keys or
@@ -31,7 +31,7 @@ const projectsData: Project[] = [
       height: 834,
     },
     href: 'https://www.promptcove.com/',
-  },
+  }, */
   /* {
     title: 'INJ: superpower for Minecraft datapacks developers',
     description: `INJ is a progressive programming language designed for Minecraft datapack development. It enhances mcfunction files with features like conditionals and loops while preserving the original command syntax. This allows developers to gradually adopt INJ's powerful features without rewriting existing code, making datapack development more efficient and maintainable.`,

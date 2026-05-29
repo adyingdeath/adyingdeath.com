@@ -28,7 +28,7 @@ export default function Projects() {
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="w-full grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {projectsData.map((project, index) => (
             <Card key={index} className="hover:shadow-lg transition-shadow">
               <CardContent className="p-0">
