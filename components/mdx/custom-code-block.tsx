@@ -25,6 +25,7 @@ export async function CustomCodeBlock({ plaincode = "", language = "plaintext" }
             className={cn(
               "**:font-[inherit]!", // Use mapleMono font
               "[&>pre]:p-4 flex-1",
+              "text-xs"
             )}
             dangerouslySetInnerHTML={{ __html: out }}
           />
