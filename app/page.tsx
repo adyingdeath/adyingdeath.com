@@ -71,7 +71,7 @@ export default function Home() {
         )}
 
         {recentPosts.length > 0 && (
-          <div>
+          <div className="w-full">
             <h2 className="text-2xl font-semibold text-foreground mb-6">
               Recent Posts
             </h2>
