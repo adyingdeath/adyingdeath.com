@@ -6,7 +6,6 @@ import { Separator } from "@/components/ui/separator";
 import WidthLimit from "@/components/container";
 import BlogCard from "@/components/blog-card";
 import { sortedPosts } from "@/lib/blog/posts";
-import { standardizePath } from "@/lib/path";
 import { getCanonicalUrl } from "@/lib/site-config";
 
 const FEATURED_POST_SLUG = "forfun/liquid-glass";
@@ -22,15 +21,10 @@ export const metadata: Metadata = {
 
 export default function Home() {
   const featuredPost =
-    sortedPosts.find(
-      (post) => standardizePath(post._meta.path) === FEATURED_POST_SLUG,
-    ) ?? sortedPosts[0];
+    sortedPosts.find((post) => post.slug === FEATURED_POST_SLUG) ??
+    sortedPosts[0];
   const recentPosts = sortedPosts
-    .filter(
-      (post) =>
-        standardizePath(post._meta.path) !==
-        standardizePath(featuredPost?._meta.path),
-    )
+    .filter((post) => post.slug !== featuredPost?.slug)
     .slice(0, RECENT_POSTS_COUNT);
 
   return (
@@ -60,10 +54,10 @@ export default function Home() {
             </div>
             <BlogCard
               variant="featured"
-              url={`/blog/${featuredPost._meta.path}`}
-              title={featuredPost.title}
-              summary={featuredPost.summary}
-              date={featuredPost.date}
+              url={`/blog/${featuredPost.slug}`}
+              title={featuredPost.meta.title}
+              summary={featuredPost.meta.summary}
+              date={featuredPost.meta.date}
               showReadMore
             />
             <Separator />
@@ -77,13 +71,13 @@ export default function Home() {
             </h2>
             <div className="flex flex-col">
               {recentPosts.map((post, index) => (
-                <div key={post._meta.path}>
+                <div key={post.slug}>
                   <BlogCard
                     variant="recent"
-                    url={`/blog/${post._meta.path}`}
-                    title={post.title}
-                    summary={post.summary}
-                    date={post.date}
+                    url={`/blog/${post.slug}`}
+                    title={post.meta.title}
+                    summary={post.meta.summary}
+                    date={post.meta.date}
                   />
                   {index < recentPosts.length - 1 && <Separator />}
                 </div>

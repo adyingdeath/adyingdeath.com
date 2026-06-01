@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
-import { allPosts } from "content-collections";
-import { MDXContent } from "@content-collections/mdx/react";
-import { standardizePath } from "@/lib/path";
+import { allPosts } from "@/data/blog/registry";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import WidthLimit from "@/components/container";
-import { mdxComponents } from "@/components/mdx/mdx-components";
 import { getCanonicalUrl } from "@/lib/site-config";
+import { notFound } from "next/navigation";
+
+// Generate all static paths at build time for 100% SSG
+export function generateStaticParams() {
+  return allPosts.map((post) => ({
+    slug: post.slug.split("/"),
+  }));
+}
 
 export async function generateMetadata({
   params,
@@ -16,21 +21,18 @@ export async function generateMetadata({
   params: Promise<{ slug: string[] }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = allPosts.find(
-    (p) => standardizePath(p._meta.path) === slug.join("/"),
-  );
+  const slugStr = slug.join("/");
+  const post = allPosts.find((p) => p.slug === slugStr);
 
   if (post === undefined) {
-    return {
-      title: "Post Not Found",
-    };
+    return { title: "Post Not Found" };
   }
 
   return {
-    title: post.title,
-    description: post.summary,
+    title: post.meta.htmlMeta?.title ?? post.meta.title,
+    description: post.meta.htmlMeta?.description ?? post.meta.summary,
     alternates: {
-      canonical: getCanonicalUrl(`/blog/${standardizePath(post._meta.path)}`),
+      canonical: post.meta.htmlMeta?.canonical ?? getCanonicalUrl(`/blog/${post.slug}`),
     },
   };
 }
@@ -41,13 +43,14 @@ export default async function page({
   params: Promise<{ slug: string[] }>;
 }) {
   const { slug } = await params;
-  const post = allPosts.find(
-    (p) => standardizePath(p._meta.path) === slug.join("/"),
-  );
+  const slugStr = slug.join("/");
+  const post = allPosts.find((p) => p.slug === slugStr);
 
   if (post === undefined) {
-    return <div>Post Not Found</div>;
+    notFound();
   }
+
+  const PostComponent = post.component;
 
   return (
     <WidthLimit className="my-12">
@@ -57,15 +60,15 @@ export default async function page({
           "prose-sm sm:prose-base md:prose-lg lg:prose-xl",
         )}
       >
-        <h1 className="text-center">{post.title}</h1>
+        <h1 className="text-center">{post.meta.title}</h1>
         <p className="mt-6">
           <Badge className="mr-2" variant="outline">
-            {format(new Date(post.date), "MMMM d, yyyy")}
+            {format(new Date(post.meta.date), "MMMM d, yyyy")}
           </Badge>
-          <span className="opacity-80">{post.summary}</span>
+          <span className="opacity-80">{post.meta.summary}</span>
         </p>
         <Separator />
-        <MDXContent code={post.mdx} components={mdxComponents} />
+        <PostComponent />
       </article>
     </WidthLimit>
   );

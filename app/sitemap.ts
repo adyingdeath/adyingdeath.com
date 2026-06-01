@@ -1,9 +1,5 @@
 import type { MetadataRoute } from "next";
-import { allPosts } from "content-collections";
-
-import { standardizePath } from "@/lib/path";
-
-//export const dynamic = "force-dynamic";
+import { allPosts } from "@/data/blog/registry";
 
 const baseUrl = "https://adyingdeath.com";
 
@@ -35,15 +31,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const blogPosts: MetadataRoute.Sitemap = allPosts.map((post) => {
-    const standardizedPath = standardizePath(post._meta.path);
-    return {
-      url: `${baseUrl}/blog/${standardizedPath}`,
-      lastModified: new Date(post.date),
-      changeFrequency: "weekly",
-      priority: 0.7,
-    };
-  });
+  const blogPosts: MetadataRoute.Sitemap = allPosts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.meta.date),
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  }));
 
   return [...staticPages, ...blogPosts];
 }

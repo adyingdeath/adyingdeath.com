@@ -8,11 +8,11 @@ const mapleMono = localFont({
   display: 'swap',
 });
 
-export async function CustomCodeBlock({ plaincode = "", language = "plaintext" }: {
-  plaincode: string,
+export async function CodeBlock({ code = "", language = "plaintext" }: {
+  code: string,
   language: string,
 }) {
-  const out = await codeToHtml(plaincode, {
+  const out = await codeToHtml(code, {
     lang: language,
     theme: "andromeeda",
   });

@@ -53,13 +53,13 @@ export default async function BlogPage({
         </div>
         <div className="flex flex-col">
           {postsToShow.map((post, index) => (
-            <div key={post._meta.path}>
+            <div key={post.slug}>
               <BlogCard
                 variant="default"
-                url={`/blog/${post._meta.path}`}
-                title={post.title}
-                summary={post.summary}
-                date={post.date}
+                url={`/blog/${post.slug}`}
+                title={post.meta.title}
+                summary={post.meta.summary}
+                date={post.meta.date}
               />
               {index < postsToShow.length - 1 && <Separator />}
             </div>
