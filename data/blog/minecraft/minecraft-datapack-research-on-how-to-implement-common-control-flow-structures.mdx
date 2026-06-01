@@ -1,0 +1,209 @@
+---
+title: "Minecraft Datapack: Research on How to Implement Control Flow Structures"
+date: 2026-05-30
+draft: false
+summary: Exploration to find a proper way to implement function calls inside Minecraft datapack.
+---
+
+> I'm developing a language, where you write high-level code similar to Java, C, Python, etc, and compile the code into datapack.
+>
+> This article is more of an exploration to find proper implementations to stably convert high-level code into datapack functions, which means the methods I discuss here is not for ordinary datapack development.
+>
+> It's been a long time since my last writing without LLM. This article is wholy written by myself. It gives me a place to think really deeply while writing.
+
+I will discuss how to implement these control structures in datapack:
+
+- If
+- While
+
+We know that computer programs use operations like `jump` or condition `jump` to build up control flow structures like `if`, `while`, etc. However, we don't have `jump` inside datapack. What we only have is `/function` and `/return`, which are the only two commands that can change the flow of control.
+
+There are a lot of differences between `jump` and `/function` command: `/function` will go back to where we run `/function` after the function completes, but `jump` won't come back itself. `jump` has a great advantage that you can determine yourself whether you want to go back to the original position because you can directly jump the original position if you want. In comparison, `/function` must go back, no matter whether you want or not.
+
+That means, if we want to implement control flow structures like `if`, `while` inside datapack, we have two options: one is to figure out how to simulate `jump` with minecraft commands, another is to implement them without `jump`.
+
+However, there's a good news. I've figured out how to simulate `jump`  inside minecraft datapack. Let's dive deep.
+
+## Simulate Jump
+
+The only two things we can use are `/function` and `/return`. Say we have these two functions:
+
+```
+# ----- caller.mcfunction -----
+say 1
+function minecraft:callee
+say 3
+
+# ----- callee.mcfunction -----
+say 2
+```
+
+If you run `/function minecraft:caller`, it's obvious we will get output like `1 2 3`, right? What if we want to do a `jump` operation after `say 1`? That means we will only get output like `1 2` without `say 3` being skipped.
+
+The method is to use `return run function minecraft:callee` instead of `function minecraft:callee`. Think about the flows inside your brain. Minecraft will first run `say 1`, then switch to function `callee`, which is `say 2`, then it goes back to function `caller` and directly return. All commands after it are actually skipped.
+
+```
+# ----- caller.mcfunction -----
+say 1
+return run function minecraft:callee
+say 3
+
+# ----- callee.mcfunction -----
+say 2
+```
+
+The following will have a similar effect but it's easier to determine return value:
+
+```
+# ----- caller.mcfunction -----
+say 1
+function minecraft:callee
+return 0 # any integers you want
+say 3
+
+# ----- callee.mcfunction -----
+say 2
+```
+
+Multiple `jump` will work well too.
+
+```
+# ----- caller.mcfunction -----
+say 1
+return run function minecraft:chain1
+say 2
+
+# ----- chain1.mcfunction -----
+say 3
+return run function minecraft:chain2
+say 4
+
+# ----- chain2.mcfunction -----
+say 5
+return 1
+say 6
+```
+
+Run `/function minecraft:caller`, we will get output `1 3 5`, skipping `say 3`, `say 4` and `say 6`. It's just the same as `jump`, right?
+
+## If
+
+### Single Branch If
+
+**Single Branch If** is easy to implement.
+
+```
+say before_if
+if (condition) {
+    say if_then
+}
+say after_if
+```
+
+```
+# ----- caller.mcfunction -----
+say before_if
+execute unless <condition> run return run function minecraft:after_if
+say if_then
+return run function minecraft:after_if
+
+# ----- after_if.mcfunction -----
+say after_if
+```
+
+### Two Branch If
+
+It's similar to **Single Branch If**. We just need to jump to `if_else` position instead of `after_if` position, then jump to `after_if` position inside `if_else`.
+
+```
+say before_if
+if (condition) {
+    say if_then
+} else {
+    say if_else
+}
+say after_if
+```
+
+```
+# ----- caller.mcfunction -----
+say before_if
+execute unless <condition> run return run function minecraft:if_else
+say if_then
+return run function minecraft:after_if
+
+# ----- if_else.mcfunction -----
+say if_else
+return run function minecraft:after_if
+
+# ----- after_if.mcfunction -----
+say after_if
+```
+
+### Multiple Branch If
+
+```
+say before_if
+if (condition1) {
+    say branch1
+} else if (condition2) {
+    say branch2
+} else {
+    say branch3
+}
+say after_if
+```
+
+```
+# ----- caller.mcfunction -----
+say before_if
+execute unless <condition1> run return run function minecraft:branch2
+say branch1
+return run function minecraft:after_if
+
+# ----- branch2.mcfunction -----
+execute unless <condition1> run return run function minecraft:branch3
+say branch2
+return run function minecraft:after_if
+
+# ----- branch3.mcfunction -----
+say branch3
+return run function minecraft:after_if
+
+# ----- after_if.mcfunction -----
+say after_if
+```
+
+### Summary
+
+The core principle is to do a jump to the next branch(or `after_if` if there's only one branch) at the beginning of branches except the last branch, when the branch's condition is not met.
+
+- For **Single Branch If**, `unless jump` to `after_if` before `if_then`.
+- For **Two Branch If**, `unless jump` to `if_else` before `if_then`.
+- For **Multiple Branch If**, `unless jump` to `branch2` before `branch1`, and `unless jump` to `branch3` before `branch2`.
+
+## While
+
+To implement **While**, we need to 
+
+```
+say before_while
+while (condition) {
+    say a_round
+}
+say after_while
+```
+
+```
+# ----- caller.mcfunction -----
+say before_while
+return run function minecraft:loop_body
+
+# ----- loop_body.mcfunction -----
+execute unless <condition> run return run function minecraft:after_while
+say a_round
+return run function minecraft:loop_body
+
+# ----- after_while.mcfunction -----
+say after_while
+```

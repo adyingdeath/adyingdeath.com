@@ -5,7 +5,11 @@ draft: false
 summary: Exploration to find a proper way to implement function calls inside Minecraft datapack.
 ---
 
-This article is an exploration to find a proper way to implement function calls, which will be used when converting high-level programming language code into datapack functions, so the method I discuss here is not for normal use like in normal datapack development.
+> I'm developing a language, where you write high-level code similar to Java, C, Python, etc, and compile the code into datapack.
+>
+> This article is more of an exploration to find proper implementations to stably convert high-level code into datapack functions, which means the methods I discuss here is not for ordinary datapack development.
+>
+> It's been a long time since my last writing without LLM. This article is wholy written by myself. It gives me a place to think really deeply while writing.
 
 In C language, when a function is called, there will be a stack frame pushed into the call stack, so the calling can just stacked up and every function calls won't bother others. We should do similar things inside Minecraft datapack.
 
