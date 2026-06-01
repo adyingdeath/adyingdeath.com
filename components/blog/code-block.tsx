@@ -13,7 +13,7 @@ export async function CodeBlock({
   language: string,
   filename?: string,
 }) {
-  const out = await highlight(code, language);
+  const out = await highlight(code.replace(/^\n/, ""), language);
 
   return (
     <div className="flex">
