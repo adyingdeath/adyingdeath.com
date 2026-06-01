@@ -1,30 +1,44 @@
----
-title: Liquid Glass
-date: 2025-06-13
-draft: false
-summary: A playful implementation of liquid glass animation (though much simpler than Apple's effect)
----
+import { md, CodeBlock, type BlogMeta } from "@/lib/blog";
 
-I created this liquid glass animation purely for fun, using vanilla JavaScript without any frameworks or WebGL. The code isn't optimized - feel free to experiment with it below.
+export const meta: BlogMeta = {
+  id: "9vbbssm5bft0",
+  title: "Liquid Glass",
+  summary: "A playful implementation of liquid glass animation (though much simpler than Apple's effect)",
+  date: "2025-06-13",
+};
 
-## File Structure
+export default function post() {
+  return (
+    <>
+      {md`
+I created this liquid glass animation purely for fun, using vanilla JavaScript without any frameworks or WebGL. The code isn't optimized — feel free to experiment with it below.
+      `}
 
+      <h2>File Structure</h2>
+
+      {md`
 The project consists of just three files (all in the same directory):
+      `}
 
-```
-index.html
+      <CodeBlock
+        language="plaintext"
+        code={`index.html
 Vector.js
-Glass.js
-```
+Glass.js`}
+      />
 
-## Codes
+      <h2>Codes</h2>
 
+      {md`
 You can copy the code directly into local files to try it out. I've added some comments to help explain the logic, but please note the code remains somewhat messy since this was just a quick experiment. It might take some time to fully understand how it works.
+      `}
 
-### index.html
+      <h3>index.html</h3>
 
-```html
-<!DOCTYPE html>
+      <CodeBlock
+        language="html"
+        filename="index.html"
+        code={`<!DOCTYPE html>
 <html>
 
 <head>
@@ -38,13 +52,15 @@ You can copy the code directly into local files to try it out. I've added some c
     </div>
 </body>
 
-</html>
-```
+</html>`}
+      />
 
-### Vector.js
+      <h3>Vector.js</h3>
 
-```javascript
-// This two classes are written by LLM.
+      <CodeBlock
+        language="javascript"
+        filename="Vector.js"
+        code={`// This two classes are written by LLM.
 
 export class Vector2 {
     constructor(x = 0, y = 0) {
@@ -147,7 +163,7 @@ export class Vector2 {
     }
 
     toString() {
-        return `Vector2(${this.x}, ${this.y})`;
+        return \`Vector2(\${this.x}, \${this.y})\`;
     }
 }
 
@@ -252,15 +268,17 @@ export class Vector3 {
     }
 
     toString() {
-        return `Vector3(${this.x}, ${this.y}, ${this.z})`;
+        return \`Vector3(\${this.x}, \${this.y}, \${this.z})\`;
     }
-}
-```
+}`}
+      />
 
-### Glass.js
+      <h3>Glass.js</h3>
 
-```javascript
-import { Vector3 } from "./Vector.js";
+      <CodeBlock
+        language="javascript"
+        filename="Glass.js"
+        code={`import { Vector3 } from "./Vector.js";
 
 /**
  * Calculate refraction direction
@@ -278,18 +296,15 @@ function calculateRefraction(n1, n2, incidentDir, normal) {
     // Ensure the normal points into the correct hemisphere relative to the incident direction
     const cosi = I.dot(N);
     if (cosi > 0) {
-        N.scale(-1); // Flip the normal to point from the incident medium to the refracting medium
+        N.scale(-1);
     }
 
-    // Calculate the relative refractive index (incident to refracting)
     const eta = n1 / n2;
     const absCosi = Math.abs(cosi);
     const sin2t = eta * eta * (1.0 - absCosi * absCosi);
 
-    // Total internal reflection check
     if (sin2t > 1.0) return null;
 
-    // Calculate the refraction direction (using physically correct signs)
     const k = Math.sign(cosi) * (eta * absCosi - Math.sqrt(1.0 - sin2t));
     return I.scale(eta).add(N.scale(k)).normalize();
 }
@@ -343,7 +358,7 @@ function defineGlass(x, y) {
     const t = r / glassRadius; // Normalized radius [0, 1]
     /*
      * Here I use a formula (latex) to simulate the surface shape of glass
-     * y = Y_{0} - \frac{V_{0}}{K}(1 - e^{-Kx})
+     * y = Y_{0} - \\frac{V_{0}}{K}(1 - e^{-Kx})
      */
     const baseHeight = a - (b / c) * (1 - Math.exp(-c * t));
 
@@ -414,8 +429,8 @@ document.addEventListener("DOMContentLoaded", function () {
             newX = Math.max(0, Math.min(containerRect.width - glass.offsetWidth, newX));
             newY = Math.max(0, Math.min(containerRect.height - glass.offsetHeight, newY));
 
-            glass.style.left = `${newX}px`;
-            glass.style.top = `${newY}px`;
+            glass.style.left = \`\${newX}px\`;
+            glass.style.top = \`\${newY}px\`;
 
             updateGlass();
         }
@@ -435,12 +450,12 @@ document.addEventListener("DOMContentLoaded", function () {
  * Imagine a light perpendicular to the webpage entering the glass. After refraction, it intersects with a point on the image below. Based on the intersection point (usually a fractional coordinate), I blend the color values of the surrounding four points according to their weights to determine the color that should be rendered for the corresponding point on the glass.
  */
 function getColorAtPosition(offsetX, offsetY, x, y) {
-    // Normalize coordinates
     const x_ = x / 50 - 1;
     const y_ = y / 50 - 1;
 
     const [bottom, top, nx, ny, nz] = defineGlass(x_, y_);
     if (top === 0) return { r: 0, g: 0, b: 0, a: 0 };
+
     const normalVec = new Vector3(nx, ny, nz);
     const inPoint = new Vector3(offsetX + x, offsetY + y, top + 20);
     const innerLight = airToMaterial(1.5, new Vector3(0, 0, -1), normalVec);
@@ -449,37 +464,30 @@ function getColorAtPosition(offsetX, offsetY, x, y) {
     const dx = inPoint.x + k * innerLight.x;
     const dy = inPoint.y + k * innerLight.y;
 
-    //console.log(dx, dy);
-
     if (isNaN(dx) || isNaN(dy)) {
         return [0, 0, 0, 0];
     }
 
-    // Get four adjacent pixels
     const x1 = Math.floor(dx);
     const y1 = Math.floor(dy);
     const x2 = x1 + 1;
     const y2 = y1 + 1;
 
-    // Check if out of canvas bounds
     const canvasWidth = ctx.canvas.width;
     const canvasHeight = ctx.canvas.height;
 
-    // Helper function: check if coordinates are within canvas bounds
     function getPixelSafe(x, y) {
         if (x < 0 || x >= canvasWidth || y < 0 || y >= canvasHeight) {
-            return [0, 0, 0, 0]; // Out of bounds returns transparent color
+            return [0, 0, 0, 0];
         }
         return ctx.getImageData(x, y, 1, 1).data;
     }
 
-    // Get color data for the four points
     const pixel1 = getPixelSafe(x1, y1);
     const pixel2 = getPixelSafe(x2, y1);
     const pixel3 = getPixelSafe(x1, y2);
     const pixel4 = getPixelSafe(x2, y2);
 
-    // Calculate weights
     const wx = dx - x1;
     const wy = dy - y1;
     const w1 = (1 - wx) * (1 - wy);
@@ -487,64 +495,45 @@ function getColorAtPosition(offsetX, offsetY, x, y) {
     const w3 = (1 - wx) * wy;
     const w4 = wx * wy;
 
-    // Blend colors
     const r = Math.round(
-        pixel1[0] * w1 +
-        pixel2[0] * w2 +
-        pixel3[0] * w3 +
-        pixel4[0] * w4
+        pixel1[0] * w1 + pixel2[0] * w2 + pixel3[0] * w3 + pixel4[0] * w4
     );
-
     const g = Math.round(
-        pixel1[1] * w1 +
-        pixel2[1] * w2 +
-        pixel3[1] * w3 +
-        pixel4[1] * w4
+        pixel1[1] * w1 + pixel2[1] * w2 + pixel3[1] * w3 + pixel4[1] * w4
     );
-
     const b = Math.round(
-        pixel1[2] * w1 +
-        pixel2[2] * w2 +
-        pixel3[2] * w3 +
-        pixel4[2] * w4
+        pixel1[2] * w1 + pixel2[2] * w2 + pixel3[2] * w3 + pixel4[2] * w4
     );
 
     return { r, g, b, a: 255 };
 }
 
-// Update magnifying glass content
 function updateGlass() {
-    // Clear the magnifying glass
     glassCtx.clearRect(0, 0, glass.width, glass.height);
 
-    // Get the position of the magnifying glass
     const glassRect = glass.getBoundingClientRect();
     const containerRect = canvas.getBoundingClientRect();
 
     const offsetX = glassRect.left - containerRect.left;
     const offsetY = glassRect.top - containerRect.top;
 
-    // Create an ImageData object (allocate memory once)
     const imageData = glassCtx.createImageData(glass.width, glass.height);
     const data = imageData.data;
 
     for (let y = 0; y < glass.height; y++) {
         for (let x = 0; x < glass.width; x++) {
-            // Get blended color
             const color = getColorAtPosition(offsetX, offsetY, x, y);
-
-            // Calculate the position of the pixel in ImageData (each pixel takes 4 bytes)
             const pos = (y * glass.width + x) * 4;
-
-            // Set RGBA values
-            data[pos] = color.r;     // R
-            data[pos + 1] = color.g; // G
-            data[pos + 2] = color.b; // B
-            data[pos + 3] = color.a; // A
+            data[pos] = color.r;
+            data[pos + 1] = color.g;
+            data[pos + 2] = color.b;
+            data[pos + 3] = color.a;
         }
     }
 
-    // Draw all pixels at once (performance critical!)
     glassCtx.putImageData(imageData, 0, 0);
+}`}
+      />
+    </>
+  );
 }
-```

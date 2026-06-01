@@ -1,0 +1,114 @@
+import { md, Img, type BlogMeta } from "@/lib/blog";
+
+export const meta: BlogMeta = {
+  id: "gmdp7g5e7gsj",
+  title: "Free Up Your Windows C Drive Without Breaking Anything",
+  summary: "Move big folders off your C drive without breaking your apps — a free tool and a clever Windows trick that takes two clicks.",
+  date: "2026-05-03 14:30",
+};
+
+export default function post() {
+  return (
+    <>
+      {md`
+Your Windows C drive is constantly filling up. You've cleaned temp files, moved your desktop folders, and emptied the Recycle Bin. Yet somehow it's still running out of space, just like me currently.
+      `}
+
+      <Img
+        src="/static/images/blog/2026-05-03_23-07-21.png"
+        width={800}
+        height={400}
+        alt="C drive full"
+      />
+
+      {md`
+The problem is usually the big folders that programs force onto C. Things like app caches, game installs, browser data — you can't just move or delete them because the programs expect them at their original location.
+
+There's a trick that solves this.
+      `}
+
+      <h2>How It Works</h2>
+
+      {md`
+Windows has a feature called a **Junction** (also called a folder redirect). It makes one folder silently point to another location on your disk. To Windows and your apps, the folder looks like it's still on its original location — but the actual files live on another location.
+
+A program accessing \`C:\\Users\\You\\AppData\\Roaming\\SomeApp\` through a junction has no idea the files are really on \`D:\\Data\\SomeApp\`. Everything just works.
+      `}
+
+      <h2>The Tool</h2>
+
+      {md`
+The command line tool to create junctions is already built into Windows (\`mklink /J\`), but using the command line is annoying. [Link Shell Extension](https://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html) is a free tool that adds a right-click menu in File Explorer. You can create junctions in two clicks.
+      `}
+
+      <h2>Things to Know Before You Start</h2>
+
+      {md`
+- **Back up your data.** Junctions are safe, but always have a backup just in case.
+- **Don't delete the junction by mistake.** If you delete the junction, you only remove the shortcut — your actual files on the other drive stay safe.
+- **Stick to user folders.** Don't move system folders like \`Windows\`, \`Program Files\`, or \`ProgramData\`. Focus on folders like \`AppData\`, game installs, download folders, and temporary files.
+      `}
+
+      <h2>Step-by-Step</h2>
+
+      {md`
+Let's say \`C:\\Users\\You\\AppData\\Local\\SomeApp\` is the folder taking up gigabytes on your C drive. Here's how to move it.
+      `}
+
+      <h3>Step 1: Move the folder to another drive</h3>
+
+      {md`
+Cut (Ctrl+X) this folder and paste it to your other drive (for example \`D:\\Data\\SomeApp\`). Make sure no program is currently using it.
+      `}
+
+      <h3>Step 2: Pick Link Source</h3>
+
+      {md`
+Right-click the folder on your other drive and select **Pick Link Source**.
+      `}
+
+      <Img
+        src="/static/images/blog/2026-05-03_23-13-20.png"
+        width={800}
+        height={400}
+        alt="Pick Link Source context menu"
+      />
+
+      <h3>Step 3: Drop As Junction</h3>
+
+      {md`
+Go back to the original location (\`C:\\Users\\You\\AppData\\Local\`) on C drive (the folder should be gone now). Right-click empty space in the File Explorer window and select **Drop As... > Junction**.
+      `}
+
+      <Img
+        src="/static/images/blog/2026-05-03_23-17-46.png"
+        width={800}
+        height={400}
+        alt="Drop As Junction context menu"
+      />
+
+      {md`
+That's it. A junction appears at the original path. Your C drive just got all that space back, and everything still works.
+      `}
+
+      <h2>What Else You Can Move</h2>
+
+      {md`
+The same trick works for any space-hogging folder on your C drive:
+
+- \`C:\\Users\\You\\AppData\\Local\\Temp\` — move it to another drive
+- Game installations from launchers that won't let you choose the install path
+- Big project folders with heavy dependencies
+
+This little Windows feature doesn't get enough attention. It's built right into the OS, it's free, and with Link Shell Extension it couldn't be easier to use.
+      `}
+
+      <h2>Reference</h2>
+
+      {md`
+- [Link Shell Extension](https://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html) — the free tool used in this guide
+- [Move WSL files to another Drive | + NEW METHOD | FAST | Keep ALL files](https://www.youtube.com/watch?v=13jo3ppi7a0) — original tutorial that inspired this post
+      `}
+    </>
+  );
+}

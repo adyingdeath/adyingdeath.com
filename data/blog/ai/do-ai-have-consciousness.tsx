@@ -1,25 +1,38 @@
----
-title: Do AI Have Consciousness?
-date: 2025-01-30
-draft: false
-summary: "A philosophical exploration of artificial intelligence consciousness, examining whether AI systems can truly develop self-awareness and subjective experiences."
----
+import { md, type BlogMeta } from "@/lib/blog";
 
+export const meta: BlogMeta = {
+  id: "ighwljdumq5w",
+  title: "Do AI Have Consciousness?",
+  summary: "A philosophical exploration of artificial intelligence consciousness, examining whether AI systems can truly develop self-awareness and subjective experiences.",
+  date: "2025-01-30",
+};
+
+export default function post() {
+  return (
+    <>
+      {md`
 I've seen many people discussing whether AI have consciousness, or if they will have consciousness in the future. Some thought that AI don't have consciousness. Do AI have consciousness? It's hard to say. Actually, we don't even define what is consciousness before we try to answer this question.
 
 The LLM is a recent turning point in AI research. Turing test was proposed by Turing in 1950, which is considered as a promising way to determine whether a system has consciousness. If people can't distinguish a machine from a human, then it's considered with consciousness. **However, LLMs today are far from passing the Turing test.** So, is it time to say that LLMs have consciousness? I don't know.
+      `}
 
-# Find consciousness
+      <h2>Find consciousness</h2>
 
+      {md`
 Consciousness is a complex concept, which is really hard to do research on. Actually, we can't even confirm whether a human except us have consciousness. Consciousness is a subjective experience, you can only feel yours.
 
 So, do you think other people have consciousness? I think most people will say **YES**. I bet that you think so too. How do we come to this conclusion? We know that we ourselves have consciousness. And we can easily feel that other people react the same way as we do, this is how we're convinced that other people have consciousness just as we do. However, is this really a convincing evidence? I think it's not.
+      `}
 
-## Consciousness is unobservable
+      <h3>Consciousness is unobservable</h3>
 
+      {md`
 Just because consciousness is a subjective experience, it's impossible to find consciousness objectively. The only thing we can do is to do tests outside of it, like doing some tests on people, on animals, on machines, etc.
 
 Think, if there are two subjects, one is yourself and the other is a machine. You can freely do any tests on yourself and the machine. However, you later find that you and the machine react exactly the same way, under any same conditions. Is there any difference between you and the machine? Yeah, there may be some difference inside you and the machine, like maybe the principle of a same reaction is different.
 
 However, it's not important whether you and the machine are the same now, because nothing will change whether you two are the same or not inside. So, in my point of view: in this case, we can think that the machine has consciousness just as you do.
-
+      `}
+    </>
+  );
+}
