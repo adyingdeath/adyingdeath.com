@@ -1,6 +1,8 @@
 import React from "react";
 import { marked } from "marked";
 import type { Token, Tokens } from "marked";
+import { cn } from "../utils";
+import { mapleMono } from "@/components/blog/font";
 
 function renderInline(tokens: Token[]): React.ReactNode[] {
   return tokens.map((token, i) => {
@@ -22,7 +24,7 @@ function renderInline(tokens: Token[]): React.ReactNode[] {
           ...children,
         );
       case "codespan":
-        return (<code key={i} className="rounded-xs bg-muted p-0.5">{token.text}</code>);
+        return (<code key={i} className={cn("px-0.5 py-[0.25] bg-secondary text-secondary-foreground rounded-xs", mapleMono.className)}>{token.text}</code>);
       default:
         return token.raw ?? "";
     }
