@@ -11,20 +11,18 @@ export default function post() {
   return (
     <>
       <blockquote>
-        <p>
-          I'm developing a language, where you write high-level code similar to
-          Java, C, Python, etc, and compile the code into datapack.
-        </p>
-        <p>
-          This article is more of an exploration to find proper implementations
-          to stably convert high-level code into datapack functions, which means
-          the methods I discuss here is not for ordinary datapack development.
-        </p>
-        <p>
-          It's been a long time since my last writing without LLM. This article
-          is wholy written by myself. It gives me a place to think really deeply
-          while writing.
-        </p>
+        {md`
+I'm developing a language, where you write high-level code similar to
+Java, C, Python, etc, and compile the code into datapack.
+
+This article is more of an exploration to find proper implementations
+to stably convert high-level code into datapack functions, which means
+the methods I discuss here is not for ordinary datapack development.
+
+It's been a long time since my last writing without LLM. This article
+is wholy written by myself. It gives me a place to think really deeply
+while writing.
+        `}
       </blockquote>
 
       {md`

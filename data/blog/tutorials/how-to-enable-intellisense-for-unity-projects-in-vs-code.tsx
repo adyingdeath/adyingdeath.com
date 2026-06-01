@@ -51,7 +51,7 @@ Secondly, uncheck all the options in the section named \`Generate .csproj files 
 Finally, close VS Code and reopen it. Or open the Command Palette (the shortcut is \`Ctrl + Shift + P\` on my VS Code) and run \`Developer: Reload Window\`. Wait patiently until all the resources complete loading. Now, you can try writing code to see if there is IntelliSense.
       `}
 
-      <h2>If you encounter "No required version of a NET SDK was found"</h2>
+      <h2>{`If you encounter "No required version of a NET SDK was found"`}</h2>
 
       {md`
 If C# Dev Kit shows you a message saying "No required version of a NET SDK was found", like in the image below:

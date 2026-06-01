@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import WidthLimit from "@/components/container";
 import { getCanonicalUrl } from "@/lib/site-config";
+import { blogStyle } from "@/lib/blog/style";
 
 export const metadata: Metadata = {
   title: "About",
@@ -25,7 +26,7 @@ export default function About() {
         </div>
 
         <div className="flex flex-col items-center">
-          <div className="prose-adyingdeath prose dark:prose-invert">
+          <div className={blogStyle}>
             <p>
               Hi, I&apos;m adyingdeath. I&apos;m a developer passionate about
               building useful tools and applications that solve real problems.

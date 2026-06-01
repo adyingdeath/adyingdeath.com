@@ -16,7 +16,7 @@ I just solved a problem that has been haunting me for several days. Recently, my
 If you've encountered the same problem and want to know directly how to solve it, you can click [here](#solve) to go straight to the solve part.
       `}
 
-      <h2>What I've Tried</h2>
+      <h2>{`What I've Tried`}</h2>
 
       {md`
 I tried to use a mobile hotspot instead of the Wi-Fi I usually did, but it didn't work. So I started to think that there must be something wrong with my computer.

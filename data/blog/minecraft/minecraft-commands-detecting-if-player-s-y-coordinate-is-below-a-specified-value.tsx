@@ -90,7 +90,7 @@ execute as xxx at @s if entity @s[x=6,y=7,z=8,dx=117,dy=117,dz=117]`}
 Returning to the original question, how do we detect whether the player's Y-coordinate is below (or above) a specified value?
       `}
 
-      <h3>Solution 1: "Infinite" Cuboid</h3>
+      <h3>{`Solution 1: "Infinite" Cuboid`}</h3>
 
       {md`
 One idea is that since the target selector can \`detect whether the player's bounding box intersects with the defined cuboid region\`, we can take an "infinite" cuboid, i.e., large enough in the \`x\` and \`z\` directions to extend far enough, and then only work on the \`y\` value, which can be the critical value you want to detect.
