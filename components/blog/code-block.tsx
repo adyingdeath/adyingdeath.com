@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { highlight } from "@/lib/highlight/highligher";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { mapleMono } from "./font";
+import { CopyButton } from "./copy-button";
 
 export async function CodeBlock({
   code = "",
@@ -13,7 +14,8 @@ export async function CodeBlock({
   language: string,
   filename?: string,
 }) {
-  const out = await highlight(code.replace(/^\n/, ""), language);
+  const trimmedCode = code.replace(/^\n/, "");
+  const out = await highlight(trimmedCode, language);
 
   return (
     <div className="flex">
@@ -21,7 +23,11 @@ export async function CodeBlock({
         {/* Top bar — outside scroll area */}
         <div className="flex items-center justify-between px-4 py-1.5 text-xs text-muted-foreground">
           <span>{filename}</span>
-          <span>{language}</span>
+          <span className="flex items-center gap-1.5">
+            <span>{language}</span>
+            |
+            <CopyButton code={trimmedCode} />
+          </span>
         </div>
         <div className="px-1 pb-1">
           <ScrollArea className="w-full rounded-sm">
