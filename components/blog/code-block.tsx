@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
-import { codeToHtml } from 'shiki'
+
+import { highlight } from "@/lib/highlight/highligher";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { mapleMono } from "./font";
 
@@ -7,10 +8,7 @@ export async function CodeBlock({ code = "", language = "plaintext" }: {
   code: string,
   language: string,
 }) {
-  const out = await codeToHtml(code, {
-    lang: language,
-    theme: "andromeeda",
-  });
+  const out = await highlight(code, language);
 
   return (
     <div className="flex">
