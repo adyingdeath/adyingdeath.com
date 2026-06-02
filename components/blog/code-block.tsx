@@ -5,29 +5,41 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { mapleMono } from "./font";
 import { CopyButton } from "./copy-button";
 
-function parseHighlightLines(highlight: string): { line: number; character: number }[] | undefined {
-  if (!highlight) return undefined;
+function parseHighlightLines(highlight: string, code: string) {
+  if (!highlight) return;
 
-  const result: { line: number; character: number }[] = [];
+  const lines = code.split("\n");
+  const decorations: { start: { line: number; character: number }; end: { line: number; character: number }; properties: { class: string } }[] = [];
   const parts = highlight.split(",");
 
   for (const part of parts) {
     const trimmed = part.trim();
     if (!trimmed) continue;
 
+    let startLine: number, endLine: number;
+
     const rangeMatch = trimmed.match(/^(\d+)-(\d+)$/);
     if (rangeMatch) {
-      const start = parseInt(rangeMatch[1], 10);
-      const end = parseInt(rangeMatch[2], 10);
-      for (let i = start; i <= end; i++) {
-        result.push({ line: i - 1, character: 0 });
-      }
+      startLine = parseInt(rangeMatch[1], 10) - 1;
+      endLine = parseInt(rangeMatch[2], 10) - 1;
     } else if (/^\d+$/.test(trimmed)) {
-      result.push({ line: parseInt(trimmed, 10) - 1, character: 0 });
+      startLine = parseInt(trimmed, 10) - 1;
+      endLine = startLine;
+    } else {
+      continue;
+    }
+
+    for (let i = startLine; i <= endLine; i++) {
+      if (i >= lines.length) break;
+      decorations.push({
+        start: { line: i, character: 0 },
+        end: { line: i, character: lines[i]?.length ?? -1 },
+        properties: { class: "highlighted-line" },
+      });
     }
   }
 
-  return result.length > 0 ? result : undefined;
+  return decorations.length > 0 ? decorations : undefined;
 }
 
 export async function CodeBlock({
@@ -52,12 +64,7 @@ function code() {}
 
   const trimmedCode = code.replace(/(^\s*\n)|(\n\s*$)/g, "");
 
-  const lines = parseHighlightLines(highlightLines ?? "");
-  const decorations = lines?.map((pos) => ({
-    start: pos,
-    end: { line: pos.line, character: -1 },
-    properties: { class: "highlighted-line" },
-  }));
+  const decorations = parseHighlightLines(highlightLines ?? "", trimmedCode);
 
   const out = await highlight(trimmedCode, language, decorations);
 
