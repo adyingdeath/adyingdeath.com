@@ -78,3 +78,6 @@ allPosts.push({ slug: "tutorials/how-to-connect-to-a-remote-ubuntu-server-using-
 
 import { meta as meta_lfigtvk7ag77, default as Post_lfigtvk7ag77 } from "./tutorials/how-to-enable-intellisense-for-unity-projects-in-vs-code";
 allPosts.push({ slug: "tutorials/how-to-enable-intellisense-for-unity-projects-in-vs-code", meta: meta_lfigtvk7ag77, component: Post_lfigtvk7ag77 });
+
+import { meta as meta_thufz3lnhtrw, default as Post_thufz3lnhtrw } from "./notes/switching-from-mdx-to-tsx-for-blogging";
+allPosts.push({ slug: "notes/switching-from-mdx-to-tsx-for-blogging", meta: meta_thufz3lnhtrw, component: Post_thufz3lnhtrw });

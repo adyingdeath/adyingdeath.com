@@ -8,7 +8,7 @@ import BlogCard from "@/components/blog-card";
 import { sortedPosts } from "@/lib/blog/posts";
 import { getCanonicalUrl } from "@/lib/site-config";
 
-const FEATURED_POST_SLUG = "forfun/liquid-glass";
+const FEATURED_POST_ID = "thufz3lnhtrw";
 const RECENT_POSTS_COUNT = 4;
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   const featuredPost =
-    sortedPosts.find((post) => post.slug === FEATURED_POST_SLUG) ??
+    sortedPosts.find((post) => post.meta.id === FEATURED_POST_ID) ??
     sortedPosts[0];
   const recentPosts = sortedPosts
     .filter((post) => post.slug !== featuredPost?.slug)
