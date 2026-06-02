@@ -8,8 +8,8 @@ export const blogStyle = cn(
     "[&_p]:my-[1.25em]",
     // Headings
     "[&_h1]:text-foreground [&_h1]:text-4xl [&_h1]:font-semibold [&_h1]:leading-[1.3] [&_h1]:mb-16",
-    "[&_h2]:text-foreground [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:leading-[1.3] [&_h2]:mt-[2em] [&_h2]:mb-[1em]",
-    "[&_h3]:text-foreground [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:leading-[1.3] [&_h3]:mt-[2em] [&_h3]:mb-[1em]",
+    "[&_h2]:text-foreground [&_h2]:text-3xl [&_h2]:font-semibold [&_h2]:leading-[1.3] [&_h2]:mt-[2em] [&_h2]:mb-[1em]",
+    "[&_h3]:text-foreground [&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:leading-[1.3] [&_h3]:mt-[2em] [&_h3]:mb-[1em]",
     // Links
     "[&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2",
     "[&_a:hover]:no-underline",

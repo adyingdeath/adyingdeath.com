@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { format } from "date-fns";
@@ -62,7 +61,7 @@ function BlogCard({
           <h3 className={titleClasses}>{title}</h3>
         )}
         <p className={summaryClasses}>
-          <Badge variant="outline">{formattedDate}</Badge> {summary}
+          {`${formattedDate} | ${summary}`}
         </p>
         {showReadMore && (
           <div className="mt-4 flex items-center text-primary group-hover:translate-x-1 transition-transform duration-300">

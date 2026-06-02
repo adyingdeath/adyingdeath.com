@@ -14,14 +14,23 @@ export async function CodeBlock({
   language: string,
   filename?: string,
 }) {
-  const trimmedCode = code.replace(/^\n/, "");
+  /* Remove leading and trailing empty lines so we can write like this:
+    <CodeBlock
+      language="js"
+      code={`
+function code() {}
+        `}
+      />
+  */
+
+  const trimmedCode = code.replace(/(^\s*\n)|(\n\s*$)/g, "");
   const out = await highlight(trimmedCode, language);
 
   return (
-    <div className="flex">
+    <div className="flex my-1.5">
       <div className="w-1 flex-1 rounded-sm border overflow-clip bg-muted">
         {/* Top bar — outside scroll area */}
-        <div className="flex items-center justify-between px-4 py-1.5 text-xs text-muted-foreground">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 py-1.5 text-xs text-muted-foreground">
           <span>{filename}</span>
           <span className="flex items-center gap-1.5">
             <span>{language}</span>
@@ -36,7 +45,7 @@ export async function CodeBlock({
                 className={cn(
                   "**:font-[inherit]",
                   "[&>pre]:p-4 flex-1",
-                  "text-xs",
+                  "text-sm",
                 )}
                 dangerouslySetInnerHTML={{ __html: out }}
               />

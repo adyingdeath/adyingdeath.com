@@ -48,7 +48,8 @@ We should use a storage to store all the stack frames and return value. Say we c
 
       <CodeBlock
         language="json"
-        code={`{
+        code={`
+{
     "return": "xxx", // The return value of the recent function
     "stack": [
         { // The first stack frame
@@ -61,7 +62,8 @@ We should use a storage to store all the stack frames and return value. Say we c
         },
         // More stack frames here...
     ]
-}`}
+}
+        `}
       />
 
       {md`
@@ -106,12 +108,14 @@ Now the storage \`stack[-1]\` is this new empty stack frame. We can directly put
 
       <CodeBlock
         language="mcfunction"
-        code={`# text: string
+        code={`
+# text: string
 data modify storage minecraft:s stack[-1].parameters.0 set value "Hello World"
 # opacity: float
 data modify storage minecraft:s stack[-1].parameters.1 set value 0.7f
 # duration: int
-data modify storage minecraft:s stack[-1].parameters.2 set value 5`}
+data modify storage minecraft:s stack[-1].parameters.2 set value 5
+        `}
       />
 
       {md`
@@ -122,7 +126,8 @@ Note that we only use \`set value xxx\` here, but you can get the value using wh
         language="mcfunction"
         code={`
 # Put into stack[-1].parameters.2 because its the third parameter
-execute store result storage minecraft:s stack[-1].parameters.2 int 1 run scoreboard players get var temp`}
+execute store result storage minecraft:s stack[-1].parameters.2 int 1 run scoreboard players get var temp
+        `}
       />
 
       {md`
@@ -136,9 +141,9 @@ Here I use natural language to describe all the steps of calling a function:
       `}
 
       <CodeBlock
+        filename="caller.mcfunction"
         language="plaintext"
         code={`
-# ----- caller.mcfunction -----
 (1) Protect local variables
 This is because there might be a recursive call, like function A calls function A itself again.
 This means we need to save all scoreboard variables that we will need to use again later.
@@ -154,13 +159,19 @@ The path is now stack[-1].parameters because the topmost element now is the call
 (5) Remove the callee's stack frame
 
 (6) Read the return value from storage path \`return\`
+        `}
+      />
 
-# ----- callee.mcfunction -----
+      <CodeBlock
+        filename="callee.mcfunction"
+        language="plaintext"
+        code={`
 (1) Read delivered parameters from stack[-1].parameters
 
 (2) Do function logic
 
-(3) Store return value into storage path \`return\``}
+(3) Store return value into storage path \`return\`
+        `}
       />
 
       <h2>An Example of Calculating Factorial</h2>
@@ -187,7 +198,8 @@ function minecraft:factorial
 #=================================#
 data remove storage minecraft:s stack[-1]
 
-tellraw @a {"storage": "minecraft:s", "nbt": "return"}`}
+tellraw @a {"storage": "minecraft:s", "nbt": "return"}
+        `}
       />
 
       <CodeBlock
@@ -246,7 +258,8 @@ scoreboard players operation 0 s *= 1 s
 #==================#
 # Put return value #
 #==================#
-execute store result storage minecraft:s return int 1 run scoreboard players get 0 s`}
+execute store result storage minecraft:s return int 1 run scoreboard players get 0 s
+        `}
       />
     </>
   );
