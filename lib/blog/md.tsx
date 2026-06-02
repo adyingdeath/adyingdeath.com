@@ -3,6 +3,7 @@ import { marked } from "marked";
 import type { Token, Tokens } from "marked";
 import { cn } from "../utils";
 import { mapleMono } from "@/components/blog/font";
+import { InlineCode } from ".";
 
 function renderInline(tokens: Token[]): React.ReactNode[] {
   return tokens.map((token, i) => {
@@ -24,7 +25,7 @@ function renderInline(tokens: Token[]): React.ReactNode[] {
           ...children,
         );
       case "codespan":
-        return (<code key={i} className={cn("px-0.5 py-[0.25] bg-secondary text-secondary-foreground rounded-xs", mapleMono.className)}>{token.text}</code>);
+        return <InlineCode>{token.text}</InlineCode>;
       default:
         return token.raw ?? "";
     }
