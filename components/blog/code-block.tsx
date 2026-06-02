@@ -5,14 +5,41 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { mapleMono } from "./font";
 import { CopyButton } from "./copy-button";
 
+function parseHighlightLines(highlight: string): { line: number; character: number }[] | undefined {
+  if (!highlight) return undefined;
+
+  const result: { line: number; character: number }[] = [];
+  const parts = highlight.split(",");
+
+  for (const part of parts) {
+    const trimmed = part.trim();
+    if (!trimmed) continue;
+
+    const rangeMatch = trimmed.match(/^(\d+)-(\d+)$/);
+    if (rangeMatch) {
+      const start = parseInt(rangeMatch[1], 10);
+      const end = parseInt(rangeMatch[2], 10);
+      for (let i = start; i <= end; i++) {
+        result.push({ line: i - 1, character: 0 });
+      }
+    } else if (/^\d+$/.test(trimmed)) {
+      result.push({ line: parseInt(trimmed, 10) - 1, character: 0 });
+    }
+  }
+
+  return result.length > 0 ? result : undefined;
+}
+
 export async function CodeBlock({
   code = "",
   language = "plaintext",
   filename,
+  highlightLines,
 }: {
   code: string,
   language: string,
   filename?: string,
+  highlightLines?: string,
 }) {
   /* Remove leading and trailing empty lines so we can write like this:
     <CodeBlock
@@ -24,7 +51,15 @@ function code() {}
   */
 
   const trimmedCode = code.replace(/(^\s*\n)|(\n\s*$)/g, "");
-  const out = await highlight(trimmedCode, language);
+
+  const lines = parseHighlightLines(highlightLines ?? "");
+  const decorations = lines?.map((pos) => ({
+    start: pos,
+    end: { line: pos.line, character: -1 },
+    properties: { class: "highlighted-line" },
+  }));
+
+  const out = await highlight(trimmedCode, language, decorations);
 
   return (
     <div className="flex my-1.5">
