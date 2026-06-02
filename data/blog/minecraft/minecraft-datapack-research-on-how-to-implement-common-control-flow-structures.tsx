@@ -3,8 +3,8 @@ import { md, CodeBlock, type BlogMeta } from "@/lib/blog";
 export const meta: BlogMeta = {
   id: "zfgt530eughs",
   title: "Minecraft Datapack: Research on How to Implement Control Flow Structures",
-  summary: "Exploration to find a proper way to implement function calls inside Minecraft datapack.",
-  date: "2026-05-30",
+  summary: "Exploration to find a proper way to implement control flow structures inside Minecraft datapack.",
+  date: "2026-06-02",
 };
 
 export default function post() {
