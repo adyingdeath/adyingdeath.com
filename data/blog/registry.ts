@@ -81,3 +81,6 @@ allPosts.push({ slug: "tutorials/how-to-enable-intellisense-for-unity-projects-i
 
 import { meta as meta_thufz3lnhtrw, default as Post_thufz3lnhtrw } from "./notes/switching-from-mdx-to-tsx-for-blogging";
 allPosts.push({ slug: "notes/switching-from-mdx-to-tsx-for-blogging", meta: meta_thufz3lnhtrw, component: Post_thufz3lnhtrw });
+
+import { meta as meta_ye4vrpdwbgw0, default as Post_ye4vrpdwbgw0 } from "./minecraft/a-small-tool-to-extract-all-vanilla-advancements-from-minecraft";
+allPosts.push({ slug: "minecraft/a-small-tool-to-extract-all-vanilla-advancements-from-minecraft", meta: meta_ye4vrpdwbgw0, component: Post_ye4vrpdwbgw0 });
