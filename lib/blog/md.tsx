@@ -1,8 +1,6 @@
 import React from "react";
 import { marked } from "marked";
 import type { Token, Tokens } from "marked";
-import { cn } from "../utils";
-import { mapleMono } from "@/components/blog/font";
 import { InlineCode } from ".";
 
 function renderInline(tokens: Token[]): React.ReactNode[] {
