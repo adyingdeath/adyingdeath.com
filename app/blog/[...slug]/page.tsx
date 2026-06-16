@@ -6,10 +6,9 @@ import { getCanonicalUrl } from "@/lib/site-config";
 import { notFound } from "next/navigation";
 import { blogStyle } from "@/lib/blog/style";
 
-// Generate all static paths at build time for 100% SSG
-export function generateStaticParams() {
+export async function generateStaticParams() {
   return allPosts.map((post) => ({
-    slug: post.slug.split("/"),
+    slug: [post.meta.id, ...post.slug.split("/")],
   }));
 }
 
@@ -19,8 +18,12 @@ export async function generateMetadata({
   params: Promise<{ slug: string[] }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const slugStr = slug.join("/");
-  const post = allPosts.find((p) => p.slug === slugStr);
+
+  if (slug.length < 2) {
+    return { title: "Post Not Found" };
+  }
+
+  const post = allPosts.find((p) => p.meta.id === slug[0]);
 
   if (post === undefined) {
     return { title: "Post Not Found" };
@@ -30,7 +33,7 @@ export async function generateMetadata({
     title: post.meta.htmlMeta?.title ?? post.meta.title,
     description: post.meta.htmlMeta?.description ?? post.meta.summary,
     alternates: {
-      canonical: post.meta.htmlMeta?.canonical ?? getCanonicalUrl(`/blog/${post.slug}`),
+      canonical: post.meta.htmlMeta?.canonical ?? getCanonicalUrl(post.path),
     },
   };
 }
@@ -41,8 +44,12 @@ export default async function page({
   params: Promise<{ slug: string[] }>;
 }) {
   const { slug } = await params;
-  const slugStr = slug.join("/");
-  const post = allPosts.find((p) => p.slug === slugStr);
+
+  if (slug.length < 2) {
+    notFound();
+  }
+
+  const post = allPosts.find((p) => p.meta.id === slug[0]);
 
   if (post === undefined) {
     notFound();

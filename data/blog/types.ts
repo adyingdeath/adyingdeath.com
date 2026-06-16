@@ -31,4 +31,6 @@ export interface BlogPost {
   meta: BlogMeta;
   /** The article content component (server component) */
   component: React.ComponentType;
+  /** Pre-computed canonical URL path (/blog/{id}/{slug}) */
+  path: string;
 }

@@ -56,7 +56,7 @@ export default async function BlogPage({
             <div key={post.slug}>
               <BlogCard
                 variant="default"
-                url={`/blog/${post.slug}`}
+                url={post.path}
                 title={post.meta.title}
                 summary={post.meta.summary}
                 date={post.meta.date}

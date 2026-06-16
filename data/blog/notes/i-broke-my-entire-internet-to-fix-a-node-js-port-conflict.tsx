@@ -43,7 +43,7 @@ lacked sufficient buffer space or because a queue was full.`}
       {md`
 Oh, god. What I'd done several days before suddenly came into my mind.
 
-I worked on some web applications, which need port 3000 to run locally. Most of the time when I tried to start a server on port 3000, I would encounter the \`EACCES error\` I've been talking about in [another blog](/blog/node-js/node-js-eacces-error-when-listening-on-some-ports). This \`EACCES error\` is because the Windows system had occupied port 3000 for temporary usage. I didn't want to free the port from the system every time I needed to start a server, so I searched on the internet to check if I could configure the range of ports the system could use.
+I worked on some web applications, which need port 3000 to run locally. Most of the time when I tried to start a server on port 3000, I would encounter the \`EACCES error\` I've been talking about in [another blog](/blog/ku1phqsc5ek4/node-js-eacces-error-when-listening-on-some-ports). This \`EACCES error\` is because the Windows system had occupied port 3000 for temporary usage. I didn't want to free the port from the system every time I needed to start a server, so I searched on the internet to check if I could configure the range of ports the system could use.
 
 Yeah, there were indeed such methods. At that time, I didn't realize that the system needs so many temporary ports to keep the network work well, so I changed the range to give it only around 1000 ports available (it used to be like 14000 or similar). Later, you know what happened. So this is the problem.
       `}

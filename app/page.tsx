@@ -54,7 +54,7 @@ export default function Home() {
             </div>
             <BlogCard
               variant="featured"
-              url={`/blog/${featuredPost.slug}`}
+              url={featuredPost.path}
               title={featuredPost.meta.title}
               summary={featuredPost.meta.summary}
               date={featuredPost.meta.date}
@@ -74,7 +74,7 @@ export default function Home() {
                 <div key={post.slug}>
                   <BlogCard
                     variant="recent"
-                    url={`/blog/${post.slug}`}
+                    url={post.path}
                     title={post.meta.title}
                     summary={post.meta.summary}
                     date={post.meta.date}
