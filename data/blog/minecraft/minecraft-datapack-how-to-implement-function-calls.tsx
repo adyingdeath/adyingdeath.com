@@ -2,7 +2,7 @@ import { md, CodeBlock, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
   id: "xiyht94gdyi8",
-  title: "Minecraft Datapack: Research on How to Implement Function Calls",
+  title: "Minecraft Datapack: How to Implement Function Calls",
   summary: "Exploration to find a proper way to implement function calls inside Minecraft datapack.",
   date: "2026-05-29",
 };

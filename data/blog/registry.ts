@@ -43,11 +43,11 @@ allPosts.push({ slug: "introducing-wespinner-a-free-website-where-you-can-create
 import { meta as meta_1wihcsz6w07y, default as Post_1wihcsz6w07y } from "./minecraft/minecraft-commands-detecting-if-player-s-y-coordinate-is-below-a-specified-value";
 allPosts.push({ slug: "minecraft/minecraft-commands-detecting-if-player-s-y-coordinate-is-below-a-specified-value", meta: meta_1wihcsz6w07y, component: Post_1wihcsz6w07y });
 
-import { meta as meta_zfgt530eughs, default as Post_zfgt530eughs } from "./minecraft/minecraft-datapack-research-on-how-to-implement-common-control-flow-structures";
-allPosts.push({ slug: "minecraft/minecraft-datapack-research-on-how-to-implement-common-control-flow-structures", meta: meta_zfgt530eughs, component: Post_zfgt530eughs });
+import { meta as meta_zfgt530eughs, default as Post_zfgt530eughs } from "./minecraft/minecraft-datapack-how-to-implement-common-control-flow-structures";
+allPosts.push({ slug: "minecraft/minecraft-datapack-how-to-implement-common-control-flow-structures", meta: meta_zfgt530eughs, component: Post_zfgt530eughs });
 
-import { meta as meta_xiyht94gdyi8, default as Post_xiyht94gdyi8 } from "./minecraft/minecraft-datapack-research-on-how-to-implement-function-calls";
-allPosts.push({ slug: "minecraft/minecraft-datapack-research-on-how-to-implement-function-calls", meta: meta_xiyht94gdyi8, component: Post_xiyht94gdyi8 });
+import { meta as meta_xiyht94gdyi8, default as Post_xiyht94gdyi8 } from "./minecraft/minecraft-datapack-how-to-implement-function-calls";
+allPosts.push({ slug: "minecraft/minecraft-datapack-how-to-implement-function-calls", meta: meta_xiyht94gdyi8, component: Post_xiyht94gdyi8 });
 
 import { meta as meta_hl0deq1imb0q, default as Post_hl0deq1imb0q } from "./minecraft/minecraft-plugin-how-to-store-data-in-itemstacks";
 allPosts.push({ slug: "minecraft/minecraft-plugin-how-to-store-data-in-itemstacks", meta: meta_hl0deq1imb0q, component: Post_hl0deq1imb0q });
