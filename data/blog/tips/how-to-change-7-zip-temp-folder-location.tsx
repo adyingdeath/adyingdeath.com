@@ -1,7 +1,6 @@
 import { md, Img, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "k1yakzpo6er5",
   title: "How to change 7-zip temp folder location",
   summary: "Learn how to change the temporary folder location for 7-zip.",
   date: "2025-05-03",

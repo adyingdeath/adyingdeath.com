@@ -8,7 +8,7 @@ import { blogStyle } from "@/lib/blog/style";
 
 export async function generateStaticParams() {
   return allPosts.map((post) => ({
-    slug: [post.meta.id, ...post.slug.split("/")],
+    slug: [post.id, ...post.slug.split("/")],
   }));
 }
 
@@ -23,7 +23,7 @@ export async function generateMetadata({
     return { title: "Post Not Found" };
   }
 
-  const post = allPosts.find((p) => p.meta.id === slug[0]);
+  const post = allPosts.find((p) => p.id === slug[0]);
 
   if (post === undefined) {
     return { title: "Post Not Found" };
@@ -49,7 +49,7 @@ export default async function page({
     notFound();
   }
 
-  const post = allPosts.find((p) => p.meta.id === slug[0]);
+  const post = allPosts.find((p) => p.id === slug[0]);
 
   if (post === undefined) {
     notFound();

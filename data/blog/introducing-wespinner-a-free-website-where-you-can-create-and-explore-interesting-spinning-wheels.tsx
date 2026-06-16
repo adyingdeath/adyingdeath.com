@@ -1,7 +1,6 @@
 import { md, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "jifuedu2lqh0",
   title: "Introducing WeSpinner: A free website where you can create and explore interesting spinning wheels.",
   summary: "Introducing WeSpinner - a free web tool for creating customizable spinning wheels. Perfect for classroom activities, decision making, and interactive events with ready-to-use templates and cross-platform accessibility.",
   date: "2025-02-09",

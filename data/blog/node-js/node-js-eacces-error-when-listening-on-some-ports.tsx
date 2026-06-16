@@ -1,7 +1,6 @@
 import { md, CodeBlock, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "ku1phqsc5ek4",
   title: "Node.js EACCES error when listening on some ports",
   summary: "Node.js EACCES error when listening on some ports",
   date: "2025-02-27",

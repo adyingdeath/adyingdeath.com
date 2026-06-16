@@ -1,7 +1,6 @@
 import { md, Img, CodeBlock, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "ynf8agkstdvu",
   title: "How to Connect to a Remote Ubuntu Server Using VS Code in Windows",
   summary: "A step-by-step guide to connecting VS Code to your Ubuntu server through SSH, allowing you to edit files directly on the server.",
   date: "2025-09-01",

@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   const featuredPost =
-    sortedPosts.find((post) => post.meta.id === FEATURED_POST_ID) ??
+    sortedPosts.find((post) => post.id === FEATURED_POST_ID) ??
     sortedPosts[0];
   const recentPosts = sortedPosts
     .filter((post) => post.slug !== featuredPost?.slug)

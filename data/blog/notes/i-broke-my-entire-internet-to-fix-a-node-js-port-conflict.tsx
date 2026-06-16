@@ -1,7 +1,6 @@
 import { md, CodeBlock, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "1rvwtd5s8wqt",
   title: "I Broke My Entire Internet to Fix a Node.js Port Conflict",
   summary: "I narrowed the Windows dynamic port range to solve a port conflict and unknowingly created a system-wide network crisis.",
   date: "2025-09-10",

@@ -1,7 +1,6 @@
 import { md, CodeBlock, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "pmx3zqfgmvrt",
   title: "Fixing shadcn/ui ScrollArea Horizontal Overflow with a Simple Trick",
   summary: "A quick trick to make shadcn/ui ScrollArea properly scroll horizontally instead of overflowing its container.",
   date: "2026-02-15 22:35",

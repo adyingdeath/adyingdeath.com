@@ -1,7 +1,6 @@
 import { md, Img, CodeBlock, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "1lssxmvozp4l",
   title: "Fixing 'Cannot find module or type declarations' for CSS imports in Next.js",
   summary: "How to resolve TypeScript errors for CSS imports in Next.js layout files by configuring VS Code to use the project's TypeScript version instead of its built-in version.",
   date: "2026-02-14",

@@ -1,7 +1,6 @@
 import { md, CodeBlock, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "2nf06y1tswv3",
   title: "Fixing Invisible Scrollbar in Tailwind CSS v4 with shadcn/ui Components",
   summary: "How to fix invisible scrollbar issue when using shadcn/ui ScrollArea component with Tailwind CSS v4.",
   date: "2026-02-05",

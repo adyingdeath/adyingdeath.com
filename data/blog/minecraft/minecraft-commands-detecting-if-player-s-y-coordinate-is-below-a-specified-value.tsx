@@ -1,7 +1,6 @@
 import { md, CodeBlock, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "1wihcsz6w07y",
   title: "Minecraft Commands: Detecting if Player's Y-Coordinate is Below a Specified Value",
   summary: "In this blog, we focus on discussing two implementation methods, both of which can effectively detect whether the player's y-value is below a specified value.",
   date: "2024-10-26 21:58",

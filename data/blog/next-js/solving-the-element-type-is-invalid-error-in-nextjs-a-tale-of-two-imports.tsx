@@ -1,7 +1,6 @@
 import { md, CodeBlock, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "w5y6pborfd2p",
   title: 'Solving the "Element type is invalid" Error in Next.js: A Tale of Two Imports',
   summary: 'Fix Next.js "Element type is invalid" errors by using absolute imports (`@/`) instead of relative paths (`./`) to prevent undefined components.',
   date: "2025-06-29 12:01",

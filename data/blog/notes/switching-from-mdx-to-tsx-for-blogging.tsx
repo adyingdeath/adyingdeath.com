@@ -1,7 +1,6 @@
 import { md, CodeBlock, type BlogMeta, InlineCode } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "thufz3lnhtrw",
   title: "Switching from MDX to TypeScript TSX for Blogging: Why and How",
   summary: "How I replaced MDX with plain TSX files, a few helper functions, and still kept the convenience of writing prose-like markdown. No more broken autocomplete, no more heavy compilation pipeline.",
   date: "2026-06-02 23:04",

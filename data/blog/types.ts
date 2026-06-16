@@ -8,8 +8,6 @@ export interface HtmlMetaOverrides {
 }
 
 export interface BlogMeta {
-  /** 16-character unique identifier for binding with external data (e.g. database) */
-  id: string;
   /** Display title of the blog post */
   title: string;
   /** Short description / excerpt */
@@ -25,6 +23,8 @@ export interface BlogMeta {
 }
 
 export interface BlogPost {
+  /** unique identifier for routing and binding with external data (e.g. database) */
+  id: string;
   /** URL-safe slug (e.g., "ai/do-ai-have-consciousness") */
   slug: string;
   /** Structured metadata */

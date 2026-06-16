@@ -1,7 +1,6 @@
 import { md, CodeBlock, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "87eevn0k71g7",
   title: "Best Practices for Implementing Internationalization (i18n) in Next.js Static Exports",
   summary: "Discover a step-by-step guide on integrating i18n support with static exports in Next.js using next-international. Learn how to set up language files, modify your project structure, and translate both server and client components seamlessly. Perfect for optimizing multilingual Next.js projects.",
   date: "2024-10-26 17:34",

@@ -1,7 +1,6 @@
 import { md, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "ighwljdumq5w",
   title: "Do AI Have Consciousness?",
   summary: "A philosophical exploration of artificial intelligence consciousness, examining whether AI systems can truly develop self-awareness and subjective experiences.",
   date: "2025-01-30",

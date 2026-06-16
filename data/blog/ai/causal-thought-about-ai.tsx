@@ -1,7 +1,6 @@
 import { md, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "ebm7w4lyapd7",
   title: "Causal Thought About AI",
   summary: "Just some random thoughts about AI.",
   date: "2025-1-1 22:53",

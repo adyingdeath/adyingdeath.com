@@ -1,7 +1,6 @@
 import { md, CodeBlock, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "9vbbssm5bft0",
   title: "Liquid Glass",
   summary: "A playful implementation of liquid glass animation (though much simpler than Apple's effect)",
   date: "2025-06-13",

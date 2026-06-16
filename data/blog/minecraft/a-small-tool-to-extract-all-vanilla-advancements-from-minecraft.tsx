@@ -2,7 +2,6 @@ import { md, type BlogMeta } from "@/lib/blog";
 import AdvancementTool from "@/data/blog/minecraft/component.advancement-tool";
 
 export const meta: BlogMeta = {
-  id: "ye4vrpdwbgw0",
   title: "A Small Tool to Extract All Vanilla Advancements from Minecraft",
   summary: "Upload your advancement folder and generate a complete advancements JSON for your datapack.",
   date: "2026-06-14 10:22",

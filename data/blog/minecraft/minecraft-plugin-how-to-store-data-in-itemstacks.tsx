@@ -1,7 +1,6 @@
 import { md, CodeBlock, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "hl0deq1imb0q",
   title: "[Minecraft Plugin] How to store data in itemstacks?",
   summary: "Use item.getItemMeta().getPersistentDataContainer() to get the getPersistentDataContainer. Then you can use set and set the data.",
   date: "2024-10-26 21:23",

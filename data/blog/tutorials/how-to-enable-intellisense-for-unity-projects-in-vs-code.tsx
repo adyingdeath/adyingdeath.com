@@ -1,7 +1,6 @@
 import { md, Img, CodeBlock, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "lfigtvk7ag77",
   title: "How to Enable IntelliSense for Unity Projects in VS Code",
   summary: "A step-by-step guide to setting up IntelliSense for Unity development in VS Code, including required plugins installation, Unity configuration, and troubleshooting .NET SDK issues.",
   date: "2025-12-05",

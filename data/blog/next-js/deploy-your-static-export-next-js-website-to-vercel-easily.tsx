@@ -1,7 +1,6 @@
 import { md, CodeBlock, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "bmj4259d68cb",
   title: "Deploy Your Static Export Next.js Website to Vercel Easily",
   summary: "Learn how to easily deploy your static exported Next.js site using Vercel, with only a few steps.",
   date: "2025-1-13",

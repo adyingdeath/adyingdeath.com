@@ -1,7 +1,6 @@
 import { md, Img, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "gmdp7g5e7gsj",
   title: "Free Up Your Windows C Drive Without Breaking Anything",
   summary: "Move big folders off your C drive without breaking your apps — a free tool and a clever Windows trick that takes two clicks.",
   date: "2026-05-03 14:30",

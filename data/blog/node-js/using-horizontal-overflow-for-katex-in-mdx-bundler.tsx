@@ -1,7 +1,6 @@
 import { md, CodeBlock, type BlogMeta } from "@/lib/blog";
 
 export const meta: BlogMeta = {
-  id: "algpcew4a6oa",
   title: "Using Horizontal Overflow for KaTeX in mdx-bundler",
   summary: "A Guide for resolving KaTeX math block overflow on mobile by wrapping .katex-display elements with a custom div using a custom rehype plugin in mdx-bundler.",
   date: "2024-11-5 21:52",
