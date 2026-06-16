@@ -6,16 +6,15 @@ import { Separator } from "@/components/ui/separator";
 import WidthLimit from "@/components/container";
 import BlogCard from "@/components/blog-card";
 import { sortedPosts } from "@/lib/blog/posts";
-import { getCanonicalUrl } from "@/lib/site-config";
 
-const FEATURED_POST_ID = "thufz3lnhtrw";
+const FEATURED_POST_ID = "thuf";
 const RECENT_POSTS_COUNT = 4;
 
 export const metadata: Metadata = {
   title: "Home | adyingdeath's blog",
   description: "Hi, I'm adyingdeath. Developer, creator, lifelong learner building things that matter. Explore my blog posts and projects.",
   alternates: {
-    canonical: getCanonicalUrl("/"),
+    canonical: "/",
   },
 };
 

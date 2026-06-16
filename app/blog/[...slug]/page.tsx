@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { allPosts } from "@/data/blog/registry";
 import { format } from "date-fns";
 import WidthLimit from "@/components/container";
-import { getCanonicalUrl } from "@/lib/site-config";
 import { notFound } from "next/navigation";
 import { blogStyle } from "@/lib/blog/style";
 
@@ -33,7 +32,7 @@ export async function generateMetadata({
     title: post.meta.htmlMeta?.title ?? post.meta.title,
     description: post.meta.htmlMeta?.description ?? post.meta.summary,
     alternates: {
-      canonical: post.meta.htmlMeta?.canonical ?? getCanonicalUrl(post.path),
+      canonical: post.path,
     },
   };
 }

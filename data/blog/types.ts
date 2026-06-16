@@ -3,8 +3,6 @@ export interface HtmlMetaOverrides {
   title?: string;
   /** Override the <meta name="description"> tag */
   description?: string;
-  /** Override the canonical URL */
-  canonical?: string;
 }
 
 export interface BlogMeta {

@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import WidthLimit from "@/components/container";
-import { getCanonicalUrl } from "@/lib/site-config";
 import { blogStyle } from "@/lib/blog/style";
 
 export const metadata: Metadata = {
   title: "About",
   description: "Hi, I'm adyingdeath. A developer passionate about building useful tools and applications that solve real problems. Get to know me better.",
   alternates: {
-    canonical: getCanonicalUrl("/about"),
+    canonical: "/about",
   },
 };
 

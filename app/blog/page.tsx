@@ -3,7 +3,6 @@ import { Separator } from "@/components/ui/separator";
 import WidthLimit from "@/components/container";
 import BlogCard from "@/components/blog-card";
 import { sortedPosts } from "@/lib/blog/posts";
-import { getCanonicalUrl } from "@/lib/site-config";
 import {
   Pagination,
   PaginationContent,
@@ -18,7 +17,7 @@ export const metadata: Metadata = {
   title: "Blog",
   description: "Thoughts, tutorials, and updates from my journey as a developer. Browse through articles on technology, programming, and life.",
   alternates: {
-    canonical: getCanonicalUrl("/blog"),
+    canonical: "/blog",
   },
 };
 
