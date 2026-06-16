@@ -2,6 +2,16 @@ import React from "react";
 import { marked } from "marked";
 import type { Token, Tokens } from "marked";
 import { InlineCode } from ".";
+import { allPosts } from "@/data/blog/registry";
+
+const BLOG_LINK_RE = /^blog:([0-9a-z]+)(.*)$/;
+
+function resolveBlogLink(href: string): string {
+  const match = href.match(BLOG_LINK_RE);
+  if (match === null) return href;
+  const path = allPosts.find((p) => p.id === match[1])?.path;
+  return path !== undefined ? `${path}${match[2]}` : href;
+}
 
 function renderInline(tokens: Token[]): React.ReactNode[] {
   return tokens.map((token, i) => {
@@ -16,14 +26,14 @@ function renderInline(tokens: Token[]): React.ReactNode[] {
         return React.createElement("strong", { key: i }, ...children);
       case "em":
         return React.createElement("em", { key: i }, ...children);
-      case "link":
-        return React.createElement(
-          "a",
-          { key: i, href: token.href },
-          ...children,
-        );
+      case "link": {
+        const href = BLOG_LINK_RE.test(token.href)
+          ? resolveBlogLink(token.href)
+          : token.href;
+        return React.createElement("a", { key: i, href }, ...children);
+      }
       case "codespan":
-        return <InlineCode>{token.text}</InlineCode>;
+        return <InlineCode key={token.text.slice(0, 10)}>{token.text}</InlineCode>;
       default:
         return token.raw ?? "";
     }
