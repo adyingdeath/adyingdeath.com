@@ -27,4 +27,5 @@ export const postsData: PostsDataEntry[] = [
   { id: "lfig", slug: "tutorials/how-to-enable-intellisense-for-unity-projects-in-vs-code" },
   { id: "thuf", slug: "notes/switching-from-mdx-to-tsx-for-blogging" },
   { id: "ye4v", slug: "minecraft/a-small-tool-to-extract-all-vanilla-advancements-from-minecraft" },
+  { id: "1ixx", slug: "minecraft/minecraft-datapack-how-to-store-and-use-variables" },
 ];

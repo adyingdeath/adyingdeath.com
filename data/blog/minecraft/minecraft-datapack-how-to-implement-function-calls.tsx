@@ -39,7 +39,7 @@ One difference is that, in datapack, the function will automatically return to i
 Return value is neccessary too, because if we want to tackle multiple types of return values, the original function return machanism is not enough. We will put return value in storage path \`return\`.
       `}
 
-      <h2>The Storage</h2>
+      <h2 id="the-storage">The Storage</h2>
 
       {md`
 We should use a storage to store all the stack frames and return value. Say we create a storage called \`minecraft:s\`. We hope its format is like this:
