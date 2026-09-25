@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardFooter,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import WidthLimit from "@/components/container";
 import BlogCard from "@/components/blog-card";
@@ -36,6 +43,27 @@ export default function Home() {
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Developer, creator, lifelong learner. Building things that matter.
           </p>
+        </div>
+
+        <div className="my-12 w-full">
+          <h2 className="mb-6 text-2xl font-semibold text-foreground">Tools</h2>
+          <Link href="/t/deepseek-clock" className="block group">
+            <Card className="transition-shadow hover:shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-lg">DeepSeek Peak / Off-Peak Clock</CardTitle>
+                <CardDescription>
+                  See whether DeepSeek API pricing is peak or off-peak right now, in your own
+                  time zone, with the current token prices.
+                </CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
+                  Open the clock
+                  <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
+              </CardFooter>
+            </Card>
+          </Link>
         </div>
 
         {featuredPost && (
