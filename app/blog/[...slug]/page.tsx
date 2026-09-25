@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
-import { allPosts } from "@/data/blog/registry";
 import { format } from "date-fns";
-import WidthLimit from "@/components/container";
 import { notFound } from "next/navigation";
+
+import WidthLimit from "@/components/container";
+import { findVisiblePostById, visiblePosts } from "@/lib/blog/posts";
 import { blogStyle } from "@/lib/blog/style";
 
+/**
+ * Only the paths returned by `generateStaticParams` exist. Anything else —
+ * including drafts in production, which `visiblePosts` omits — is a genuine
+ * 404 before the page (and the root loading boundary) ever streams.
+ */
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
-  return allPosts.map((post) => ({
+  return visiblePosts.map((post) => ({
     slug: [post.id, ...post.slug.split("/")],
   }));
 }
@@ -22,7 +30,7 @@ export async function generateMetadata({
     return { title: "Post Not Found" };
   }
 
-  const post = allPosts.find((p) => p.id === slug[0]);
+  const post = findVisiblePostById(slug[0]);
 
   if (post === undefined) {
     return { title: "Post Not Found" };
@@ -48,7 +56,7 @@ export default async function page({
     notFound();
   }
 
-  const post = allPosts.find((p) => p.id === slug[0]);
+  const post = findVisiblePostById(slug[0]);
 
   if (post === undefined) {
     notFound();

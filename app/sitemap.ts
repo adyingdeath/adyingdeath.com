@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { allPosts } from "@/data/blog/registry";
+import { visiblePosts } from "@/lib/blog/posts";
 import { siteUrl } from "@/lib/site-config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -30,7 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const blogPosts: MetadataRoute.Sitemap = allPosts.map((post) => ({
+  const blogPosts: MetadataRoute.Sitemap = visiblePosts.map((post) => ({
     url: `${siteUrl}${post.path}`,
     lastModified: new Date(post.meta.date),
     changeFrequency: "weekly" as const,

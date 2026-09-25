@@ -2,14 +2,14 @@ import React from "react";
 import { marked } from "marked";
 import type { Token, Tokens } from "marked";
 import { InlineCode } from ".";
-import { allPosts } from "@/data/blog/registry";
+import { findVisiblePostById } from "./posts";
 
 const BLOG_LINK_RE = /^blog:([0-9a-z]+)(.*)$/;
 
 function resolveBlogLink(href: string): string {
   const match = href.match(BLOG_LINK_RE);
   if (match === null) return href;
-  const path = allPosts.find((p) => p.id === match[1])?.path;
+  const path = findVisiblePostById(match[1])?.path;
   return path !== undefined ? `${path}${match[2]}` : href;
 }
 

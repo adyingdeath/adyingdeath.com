@@ -12,7 +12,10 @@ export interface BlogMeta {
   summary: string;
   /** Publish date string parseable by `new Date()` (e.g. "2025-05-03" or "2025-1-1 22:53") */
   date: string;
-  /** Whether the post is still a draft (excluded from production build) */
+  /**
+   * Whether the post is still a draft. Drafts are previewable in development
+   * only: production hides them from listings, direct URLs and the sitemap.
+   */
   draft?: boolean;
   /** Optional hero image path */
   image?: string;

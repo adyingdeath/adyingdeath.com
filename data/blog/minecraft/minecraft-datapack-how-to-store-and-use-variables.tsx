@@ -5,6 +5,7 @@ export const meta: BlogMeta = {
   title: "Minecraft Datapack: How to Store and Use Variables",
   summary: "Exploration on storage and usage of variables in Minecraft datapack.",
   date: "2026-06-16 19:16",
+  draft: true
 };
 
 export default function post() {
@@ -23,27 +24,15 @@ It's been a long time since my last writing without LLM. This article is wholy w
       {md`
 Inside [How to Implement Function Calls > The Storage](blog:xiyh#the-storage), I've discussed how to store local variables. It's better for us to store local variables inside storage, because only when they are inside storage we can make recursive function calling.
 
-We prefer scoreboard to do calculations(if the variables can be calculated on scoreboard), because it's what directly provides by the game and can complete calculations quickly.
+We prefer scoreboard for calculations if the variables can be calculated on scoreboard, because it's directly provided by the game and can complete calculations quickly.
       `}
 
       <h2>Boolean Type</h2>
 
       {md`
-I will start with Boolean type. It's good to use scoreboard directly for calcuations between boolean variables. Since scoreboard is for integer, we will make a convention where \`0\` stands for \`false\` and \`1\` stands for \`true\`. That's how we store them on scoreboard.
+I will start with Boolean type. It's good to use scoreboard directly for calcuations between boolean variables. Since scoreboard is for integer, we will make a convention where \`0\` stands for \`false\` and \`1\` stands for \`true\`. During calculations, Boolean type variables will live inside scoreboard, and they should be put back to storage before leaving the function.
 
-For calculations, we know that there are three basic kinds of boolean operations: \`NOT\`, \`OR\` and \`AND\`. We need to figure out how to complete these three operations using what Minecraft has prepared for us:
-
-- \`+=\`
-- \`-=\`
-- \`*=\`
-- \`/=\`
-- \`%=\`
-- \`=\`
-- \`<\`
-- \`>\`
-- \`><\`
-
-and we should achieve them with as little commands as possible for performance.
+For calculations, we know that there are three basic kinds of boolean operations: \`NOT\`, \`OR\` and \`AND\`. We need to figure out how to complete these three operations using what Minecraft has prepared for us (\`+=\`, \`-=\`, \`*=\`, \`/=\`, \`%=\`, \`=\`, \`<\`, \`>\`, \`><\`), and at the same time we should achieve them with as little commands as possible for performance.
       `}
 
       <h3>NOT</h3>
@@ -69,7 +58,7 @@ and we should achieve them with as little commands as possible for performance.
       </Table>
 
       {md`
-It's actually very easy to find how to do \`NOT\` with scoreboard.
+It's very easy to figure out how to do \`NOT\` with scoreboard.
       `}
 
       <CodeBlock
@@ -78,6 +67,52 @@ It's actually very easy to find how to do \`NOT\` with scoreboard.
 # calculate: t = not a = 1 - a
 scoreboard players set t var 1
 scoreboard players operation t var -= a var
+        `}
+      />
+
+      <h3>AND</h3>
+
+      <Table>
+        <TableCaption>Truth table for AND operation</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="text-center">a</TableHead>
+            <TableHead className="text-center">b</TableHead>
+            <TableHead className="text-center">a AND b</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell className="text-center">0</TableCell>
+            <TableCell className="text-center">0</TableCell>
+            <TableCell className="text-center">0</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="text-center">0</TableCell>
+            <TableCell className="text-center">1</TableCell>
+            <TableCell className="text-center">0</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="text-center">1</TableCell>
+            <TableCell className="text-center">0</TableCell>
+            <TableCell className="text-center">0</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="text-center">1</TableCell>
+            <TableCell className="text-center">1</TableCell>
+            <TableCell className="text-center">1</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+
+      <div className="mt-8"></div>
+
+      <CodeBlock
+        language="mcfunction"
+        code={`
+# calculate: t = a * b
+scoreboard players operation t var = a var
+scoreboard players operation t var *= b var
         `}
       />
 
@@ -132,11 +167,10 @@ a OR b
       />
 
       {md`
-You can see that the operation is complex, you will need a four commands to complete it.
+You can see that the operation is complex, you will need four commands to achieve it.
       `}
 
       <CodeBlock
-        filename=""
         language="mcfunction"
         code={`
 # calculate: t = a + b + ab
@@ -148,10 +182,57 @@ scoreboard players operation t var += b var
       />
 
       {md`
-So I've thought very hard to find a better way to achieve OR operation. After some time of 
+So I've thought very hard to find a better way to achieve OR operation. And suddenly I noticed this operation on [Scoreboard – Minecraft Wiki](https://minecraft.wiki/w/Scoreboard#Score_operations):
       `}
 
-      <h3>AND</h3>
+      <blockquote>
+        {md`
+\`>\`:
+
+Assigns the maximum value between the target's score and the source's score. It will compare and pick the highest score value between the target's and the source's scores.
+
+New Target Score = max(Target Score, Source Score)
+        `}
+      </blockquote>
+
+      {md`
+It's obvious that \`t = a OR b = max(a, b)\`, right?
+      `}
+
+      <CodeBlock
+        language="mcfunction"
+        code={`
+# calculate: t = max(a, b)
+scoreboard players operation t var = a var
+scoreboard players operation t var > b var
+        `}
+      />
+
+      <h2>Integer Type</h2>
+
+      {md`
+Integer type variables will live in scoreboard while calculating, and should be put back to storage before leaving the function. All the operations can be done using scoreboard operations the game has provided us.
+      `}
+
+      <h2>Float Type</h2>
+
+      {md`
+It's really difficult and complex to do calculations between Float type variables.
+      `}
+
+      <h3>Addition</h3>
+
+
+
+      <h3>Subtraction</h3>
+
+
+
+      <h3>Multiplication</h3>
+
+
+
+      <h3>Division</h3>
     </>
   );
 }
