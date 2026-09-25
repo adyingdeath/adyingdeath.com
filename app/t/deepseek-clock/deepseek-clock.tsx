@@ -355,9 +355,6 @@ export default function DeepSeekClock({ pricing }: Readonly<{ pricing: ReactNode
               cy={CENTER}
               r={R_CIRCLE}
               fill={circleColor}
-              stroke="var(--background)"
-              strokeWidth={3}
-              style={{ filter: "drop-shadow(0 4px 16px rgba(0,0,0,0.18))" }}
             />
             <text
               x={CENTER}
